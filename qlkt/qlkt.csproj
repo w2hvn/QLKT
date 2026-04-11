@@ -22,4 +22,4 @@
     <PackageReference Include="ClosedXML" Version="0.102.2" />
   </ItemGroup>
 
-<ItemGroup /></Project>
+<ItemGroup /><ItemGroup /></Project>

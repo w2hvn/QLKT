@@ -1,3 +1,4 @@
+using System.Windows;
 using System;
 using System.Collections.Generic;
 using System.Windows.Controls;
@@ -7,10 +8,17 @@ namespace QLKT.Views
 {
     public partial class RewardProposalView : UserControl
     {
+        public event EventHandler OnCreateNewProposalRequested;
+
         public RewardProposalView()
         {
             InitializeComponent();
             LoadData();
+        }
+
+        private void BtnCreateNew_Click(object sender, RoutedEventArgs e)
+        {
+            OnCreateNewProposalRequested?.Invoke(this, EventArgs.Empty);
         }
 
         private void LoadData()

@@ -6,11 +6,41 @@
              mc:Ignorable="d"
              d:DesignHeight="600" d:DesignWidth="1000"
              Background="{StaticResource Brush.Background}">
-    <Grid>
+    <Grid Margin="24">
         <Border Background="White" CornerRadius="8" Padding="24">
             <StackPanel>
-                <TextBlock Text="CÀI ĐẶT HỆ THỐNG" Style="{StaticResource Text.Heading.Medium}" Margin="0,0,0,16"/>
-                <TextBlock Text="Cấu hình các tham số hệ thống tại đây." Style="{StaticResource Text.Body.Large}"/>
+                <TextBlock Text="CÀI ĐẶT HỆ THỐNG" Style="{StaticResource Text.Heading.Medium}" Margin="0,0,0,24"/>
+
+                <!-- Notifications -->
+                <TextBlock Text="Thông báo" Style="{StaticResource Text.Body.Large}" FontWeight="SemiBold" Margin="0,0,0,16"/>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                    <CheckBox IsChecked="True" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                    <TextBlock Text="Nhận thông báo khi có đề xuất mới" VerticalAlignment="Center"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,24">
+                    <CheckBox IsChecked="True" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                    <TextBlock Text="Nhận email báo cáo hàng tuần" VerticalAlignment="Center"/>
+                </StackPanel>
+
+                <Separator Margin="0,0,0,24"/>
+
+                <!-- Appearance -->
+                <TextBlock Text="Giao diện (Theme)" Style="{StaticResource Text.Body.Large}" FontWeight="SemiBold" Margin="0,0,0,16"/>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,24">
+                    <RadioButton Content="Sáng (Light)" IsChecked="True" Margin="0,0,24,0"/>
+                    <RadioButton Content="Tối (Dark)"/>
+                </StackPanel>
+
+                <Separator Margin="0,0,0,24"/>
+
+                <!-- Security / Sessions -->
+                <TextBlock Text="Bảo mật &amp; Phiên đăng nhập" Style="{StaticResource Text.Body.Large}" FontWeight="SemiBold" Margin="0,0,0,16"/>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,24">
+                    <CheckBox IsChecked="True" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                    <TextBlock Text="Giữ phiên đăng nhập (Nhớ mật khẩu)" VerticalAlignment="Center"/>
+                </StackPanel>
+
+                <Button Content="LƯU CÀI ĐẶT" Style="{StaticResource Button}" Tag="Primary" Width="150" HorizontalAlignment="Left" Margin="0,16,0,0" Click="BtnSave_Click"/>
             </StackPanel>
         </Border>
     </Grid>
