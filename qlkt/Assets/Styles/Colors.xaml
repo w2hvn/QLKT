@@ -2,9 +2,9 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <!-- ================= PRIMARY ================= -->
-    <Color x:Key="Color.Primary">#0A1F44</Color>
-    <Color x:Key="Color.Primary.Light">#112D5A</Color>
-    <Color x:Key="Color.Primary.Dark">#081833</Color>
+    <Color x:Key="Color.Primary">#001529</Color>
+    <Color x:Key="Color.Primary.Light">#002140</Color>
+    <Color x:Key="Color.Primary.Dark">#000C17</Color>
 
     <!-- ================= GOLD ================= -->
     <Color x:Key="Color.Gold">#C9A23F</Color>
@@ -12,50 +12,41 @@
     <Color x:Key="Color.Gold.Dark">#A8862E</Color>
 
     <!-- ================= BACKGROUND ================= -->
-    <Color x:Key="Color.Background">#F5F6F8</Color>
+    <Color x:Key="Color.Background">#F0F2F5</Color>
     <Color x:Key="Color.Surface">#FFFFFF</Color>
     <Color x:Key="Color.Surface.Hover">#F9FAFB</Color>
 
     <!-- ================= BORDER ================= -->
-    <Color x:Key="Color.Border">#E0E3E8</Color>
-    <Color x:Key="Color.Border.Dark">#D1D5DB</Color>
+    <Color x:Key="Color.Border">#D9D9D9</Color>
+    <Color x:Key="Color.Border.Dark">#BFBFBF</Color>
 
     <!-- ================= TEXT ================= -->
-    <Color x:Key="Color.Text.Primary">#1A1A1A</Color>
-    <Color x:Key="Color.Text.Secondary">#6B7280</Color>
-    <Color x:Key="Color.Text.Muted">#9CA3AF</Color>
+    <Color x:Key="Color.Text.Primary">#000000</Color>
+    <Color x:Key="Color.Text.Secondary">#595959</Color>
+    <Color x:Key="Color.Text.Muted">#8C8C8C</Color>
     <Color x:Key="Color.Text.Inverse">#FFFFFF</Color>
 
     <!-- ================= STATUS ================= -->
-    <Color x:Key="Color.Success">#2E7D32</Color>
-    <Color x:Key="Color.Warning">#F59E0B</Color>
-    <Color x:Key="Color.Danger">#D32F2F</Color>
-    <Color x:Key="Color.Info">#0288D1</Color>
+    <Color x:Key="Color.Success">#52C41A</Color>
+    <Color x:Key="Color.Warning">#FAAD14</Color>
+    <Color x:Key="Color.Danger">#F5222D</Color>
+    <Color x:Key="Color.Info">#1890FF</Color>
 
     <!-- ================= BRUSHES ================= -->
-    <!-- Primary -->
     <SolidColorBrush x:Key="Brush.Primary" Color="{StaticResource Color.Primary}"/>
     <SolidColorBrush x:Key="Brush.Primary.Light" Color="{StaticResource Color.Primary.Light}"/>
-
-    <!-- Gold -->
     <SolidColorBrush x:Key="Brush.Gold" Color="{StaticResource Color.Gold}"/>
-
-    <!-- Background -->
     <SolidColorBrush x:Key="Brush.Background" Color="{StaticResource Color.Background}"/>
     <SolidColorBrush x:Key="Brush.Surface" Color="{StaticResource Color.Surface}"/>
     <SolidColorBrush x:Key="Brush.Surface.Hover" Color="{StaticResource Color.Surface.Hover}"/>
-
-    <!-- Border -->
     <SolidColorBrush x:Key="Brush.Border" Color="{StaticResource Color.Border}"/>
-
-    <!-- Text -->
     <SolidColorBrush x:Key="Brush.Text.Primary" Color="{StaticResource Color.Text.Primary}"/>
     <SolidColorBrush x:Key="Brush.Text.Secondary" Color="{StaticResource Color.Text.Secondary}"/>
     <SolidColorBrush x:Key="Brush.Text.Inverse" Color="{StaticResource Color.Text.Inverse}"/>
-
-    <!-- Status -->
     <SolidColorBrush x:Key="Brush.Success" Color="{StaticResource Color.Success}"/>
     <SolidColorBrush x:Key="Brush.Warning" Color="{StaticResource Color.Warning}"/>
     <SolidColorBrush x:Key="Brush.Danger" Color="{StaticResource Color.Danger}"/>
-
+    <SolidColorBrush x:Key="Brush.Info" Color="{StaticResource Color.Info}"/>
+    <!-- add near other brushes in Colors.xaml -->
+    <SolidColorBrush x:Key="Brush.Text.Muted" Color="{StaticResource Color.Text.Muted}"/>
 </ResourceDictionary>

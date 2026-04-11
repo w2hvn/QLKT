@@ -1,4 +1,4 @@
-namespace MilitaryRewardApp.Models
+namespace QLKT.Models
 {
     public class Unit
     {

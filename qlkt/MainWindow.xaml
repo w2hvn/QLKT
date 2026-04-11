@@ -1,103 +1,151 @@
-﻿<Window x:Class="MilitaryRewardApp.MainWindow"
+﻿<Window x:Class="QLKT.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:views="clr-namespace:MilitaryRewardApp.UI.Views"
+        xmlns:views="clr-namespace:QLKT.Views"
         Title="Hệ thống quản lý khen thưởng"
-        Width="1280"
-        Height="800"
+        Width="1440"
+        Height="900"
         WindowStartupLocation="CenterScreen"
         Background="{StaticResource Brush.Background}">
 
     <Grid>
-
-        <!-- ================= LAYOUT ================= -->
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="240"/>
+            <ColumnDefinition Width="260"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="64"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-
         <!-- ================= SIDEBAR ================= -->
-        <StackPanel Grid.RowSpan="2"
-                    Background="{StaticResource Brush.Primary}">
+        <Grid Grid.Column="0" Background="White">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="180"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-            <!-- Logo -->
-            <TextBlock Text="QUẢN LÝ KHEN THƯỞNG"
-                       Foreground="White"
-                       Margin="16"
-                       FontWeight="Bold"
-                       FontSize="14"/>
-
-            <!-- Menu -->
-            <Button Content="🏠 Tổng quan"
-                    Style="{StaticResource Sidebar.Item}"
-                    Tag="Active"/>
-
-            <Button Content="👤 Quân nhân"
-                    Style="{StaticResource Sidebar.Item}"/>
-
-            <Button Content="🏅 Khen thưởng"
-                    Style="{StaticResource Sidebar.Item}"/>
-
-            <Button Content="📊 Báo cáo"
-                    Style="{StaticResource Sidebar.Item}"/>
-
-        </StackPanel>
-
-        <!-- ================= HEADER ================= -->
-        <Grid Grid.Column="1"
-              Background="White">
-
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="300"/>
-                <ColumnDefinition Width="200"/>
-            </Grid.ColumnDefinitions>
-
-            <!-- Title -->
-            <TextBlock Text="Tổng quan hệ thống"
-                       Style="{StaticResource Text.Heading.Medium}"
-                       VerticalAlignment="Center"
-                       Margin="16,0"/>
-
-            <!-- Search -->
-            <TextBox Grid.Column="1"
-                     Height="34"
-                     VerticalAlignment="Center"
-                     Margin="0,0,16,0"/>
-
-            <!-- User -->
-            <StackPanel Grid.Column="2"
-                        Orientation="Horizontal"
-                        VerticalAlignment="Center">
-
-                <TextBlock Text="Admin"
-                           Margin="0,0,8,0"
-                           VerticalAlignment="Center"/>
-
-                <Border Width="32"
-                        Height="32"
-                        Background="{StaticResource Brush.Surface.Hover}"
-                        CornerRadius="16"/>
-
+            <!-- Logo Section -->
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Border Width="80" Height="80" Background="{StaticResource Brush.Gold}" CornerRadius="40" Margin="0,0,0,10">
+                    <TextBlock Text="⭐" FontSize="40" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Red"/>
+                </Border>
+                <TextBlock Text="QUÂN ĐỘI NDVN" FontWeight="Bold" FontSize="16" HorizontalAlignment="Center"/>
             </StackPanel>
 
+            <!-- Menu Items -->
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                <StackPanel Margin="0,10">
+                    <Button Style="{StaticResource Button}" Tag="Secondary" HorizontalContentAlignment="Left" Padding="24,12" Margin="0,2">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="📊" Margin="0,0,12,0"/>
+                            <TextBlock Text="Tổng quan"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{StaticResource Button}" Tag="Secondary" HorizontalContentAlignment="Left" Padding="24,12" Margin="0,2">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="📋" Margin="0,0,12,0"/>
+                            <TextBlock Text="Danh sách Khen thưởng"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{StaticResource Button}" Tag="Secondary" HorizontalContentAlignment="Left" Padding="24,12" Margin="0,2">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="📝" Margin="0,0,12,0"/>
+                            <TextBlock Text="Đề xuất Khen thưởng"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{StaticResource Button}" Tag="Secondary" HorizontalContentAlignment="Left" Padding="24,12" Margin="0,2">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="✔️" Margin="0,0,12,0"/>
+                            <TextBlock Text="Phê duyệt"/>
+                        </StackPanel>
+                    </Button>
+                    <!-- Active Item -->
+                    <Button Style="{StaticResource Button}" Tag="Dark" HorizontalContentAlignment="Left" Padding="24,12" Margin="0,2">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="📁" Margin="0,0,12,0"/>
+                            <TextBlock Text="Danh mục Khen thưởng"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{StaticResource Button}" Tag="Secondary" HorizontalContentAlignment="Left" Padding="24,12" Margin="0,2">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="📈" Margin="0,0,12,0"/>
+                            <TextBlock Text="Thống kê &amp; Báo cáo"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{StaticResource Button}" Tag="Secondary" HorizontalContentAlignment="Left" Padding="24,12" Margin="0,2">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="👥" Margin="0,0,12,0"/>
+                            <TextBlock Text="Quản lý Người dùng"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{StaticResource Button}" Tag="Secondary" HorizontalContentAlignment="Left" Padding="24,12" Margin="0,2">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="⚙️" Margin="0,0,12,0"/>
+                            <TextBlock Text="Cài đặt"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </ScrollViewer>
         </Grid>
 
-        <!-- ================= CONTENT ================= -->
-        <ContentControl Grid.Row="1"
-                        Grid.Column="1"
-                        x:Name="MainContent">
+        <!-- ================= MAIN AREA ================= -->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="70"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-            <!-- Default View -->
-            <views:DashboardView/>
+            <!-- HEADER -->
+            <Border Background="White" Padding="24,0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
 
-        </ContentControl>
+                    <TextBlock Text="TỔNG QUAN HỆ THỐNG KHEN THƯỞNG"
+                               VerticalAlignment="Center"
+                               Style="{StaticResource Text.Heading.Small}"/>
 
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                        <!-- Search bar -->
+                        <Grid Width="250" Margin="0,0,24,0">
+                            <TextBox VerticalContentAlignment="Center" Tag="Search"/>
+                            <TextBlock Text="🔍" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0" Foreground="{StaticResource Brush.Text.Muted}"/>
+                            <TextBlock Text="Tìm kiếm đề xuất/chiến sĩ..." VerticalAlignment="Center" HorizontalAlignment="Left" Margin="30,0" IsHitTestVisible="False" Foreground="{StaticResource Brush.Text.Muted}"/>
+                        </Grid>
+
+                        <TextBlock Text="🔔" FontSize="20" VerticalAlignment="Center" Margin="0,0,24,0" Cursor="Hand"/>
+                    </StackPanel>
+
+                    <!-- User Profile -->
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                        <Border Width="40" Height="40" CornerRadius="20" Margin="0,0,12,0" Background="{StaticResource Brush.Primary}">
+                            <TextBlock Text="👨‍✈️" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="Lt. Col. Nguyen Van Hung" FontWeight="Bold" FontSize="13"/>
+                            <TextBlock Text="hung.nv@mod.gov.vn" Style="{StaticResource Text.Caption}"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- BREADCRUMBS / SUB-NAV -->
+            <Border Grid.Row="1" Background="White" Padding="24,0,24,15">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Dashboard Overview" Margin="0,0,24,0" Foreground="{StaticResource Brush.Text.Secondary}" Cursor="Hand"/>
+                    <TextBlock Text="Hồ sơ Chiến sĩ" Margin="0,0,24,0" Foreground="{StaticResource Brush.Text.Secondary}" Cursor="Hand"/>
+                    <Border Background="#001529" CornerRadius="4" Padding="12,6">
+                        <TextBlock Text="QUẢN LÝ KHEN THƯỞNG" Foreground="White" FontWeight="Bold"/>
+                    </Border>
+                    <TextBlock Text="Ngày: 15/10/2023" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="400,0,0,0" Foreground="{StaticResource Brush.Text.Secondary}"/>
+                </StackPanel>
+            </Border>
+
+            <!-- CONTENT -->
+            <ContentControl Grid.Row="2" x:Name="MainContent" Margin="24">
+                <views:DashboardView/>
+            </ContentControl>
+        </Grid>
     </Grid>
-
 </Window>

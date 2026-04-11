@@ -1,14 +1,14 @@
 using System;
 using System.Windows.Controls;
-using MilitaryRewardApp.Data;
+using QLKT.Data;
 
-namespace MilitaryRewardApp.Views
+namespace QLKT.Views
 {
-    public partial class DashboardPage : UserControl
+    public partial class DashboardView : UserControl
     {
         private readonly DatabaseContext _db;
 
-        public DashboardPage()
+        public DashboardView()
         {
             InitializeComponent();
             _db = new DatabaseContext();
@@ -21,15 +21,15 @@ namespace MilitaryRewardApp.Views
             {
                 var soldiers = await _db.ExecuteScalarAsync("SELECT COUNT(*) FROM Soldiers");
                 var rewards = await _db.ExecuteScalarAsync("SELECT COUNT(*) FROM Rewards");
-                var units = await _db.ExecuteScalarAsync("SELECT COUNT(*) FROM Units");
+                // For 'Pending', we assume a status field or similar, or just a sample count for now
+                // var pending = await _db.ExecuteScalarAsync("SELECT COUNT(*) FROM Rewards WHERE Status = 'Pending'");
 
-                txtTotalSoldiers.Text = soldiers?.ToString() ?? "0";
-                txtTotalRewards.Text = rewards?.ToString() ?? "0";
-                txtTotalUnits.Text = units?.ToString() ?? "0";
+                txtTotalSoldiers.Text = string.Format("{0:N0}", soldiers ?? 0);
+                txtTotalRewards.Text = string.Format("{0:N0}", rewards ?? 0);
+                txtPendingRewards.Text = "5"; // Placeholder as requested by the UI design
             }
             catch (Exception ex)
             {
-                // In a real app, log this
                 Console.WriteLine(ex.Message);
             }
         }

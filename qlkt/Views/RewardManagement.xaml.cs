@@ -2,10 +2,10 @@ using System;
 using System.Data;
 using System.Windows;
 using System.Windows.Controls;
-using MilitaryRewardApp.Data;
+using QLKT.Data;
 using MySqlConnector;
 
-namespace MilitaryRewardApp.Views
+namespace QLKT.Views
 {
     public partial class RewardManagement : UserControl
     {
@@ -17,47 +17,47 @@ namespace MilitaryRewardApp.Views
         {
             InitializeComponent();
             _db = new DatabaseContext();
-            LoadSoldiers();
+            LoadAllRewards();
         }
 
-        private async void LoadSoldiers(string search = "")
+        private async void LoadAllRewards()
         {
             try
             {
-                string query = "SELECT SoldierID, FullName FROM Soldiers";
-                if (!string.IsNullOrEmpty(search) && search != "Nhập tên tìm kiếm...")
-                {
-                    query += $" WHERE FullName LIKE '%{search}%'";
-                }
+                string query = @"SELECT r.*, s.FullName, s.Rank, u.UnitName
+                                 FROM Rewards r
+                                 JOIN Soldiers s ON r.SoldierID = s.SoldierID
+                                 LEFT JOIN Units u ON s.UnitID = u.UnitID
+                                 ORDER BY r.RewardID DESC";
                 var dt = await _db.ExecuteQueryAsync(query);
-                lstSoldiers.ItemsSource = dt.DefaultView;
+                dgRewards.ItemsSource = dt.DefaultView;
             }
             catch (Exception ex) { MessageBox.Show("Lỗi: " + ex.Message); }
         }
 
-        private void txtSearchSoldier_TextChanged(object sender, TextChangedEventArgs e)
+        private async void txtSearchSoldier_TextChanged(object sender, TextChangedEventArgs e)
         {
-            LoadSoldiers(txtSearchSoldier.Text);
-        }
+            string search = txtSearchSoldier.Text;
+            if (string.IsNullOrWhiteSpace(search)) return;
 
-        private void lstSoldiers_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (lstSoldiers.SelectedItem is DataRowView row)
-            {
-                _selectedSoldierId = Convert.ToInt32(row["SoldierID"]);
-                LoadRewards();
-            }
-        }
-
-        private async void LoadRewards()
-        {
-            if (_selectedSoldierId == null) return;
             try
             {
-                var dt = await _db.ExecuteQueryAsync($"SELECT * FROM Rewards WHERE SoldierID = {_selectedSoldierId}");
-                dgRewards.ItemsSource = dt.DefaultView;
+                string query = "SELECT s.*, u.UnitName FROM Soldiers s LEFT JOIN Units u ON s.UnitID = u.UnitID WHERE s.FullName LIKE @search LIMIT 1";
+                var parameters = new MySqlParameter[]
+                {
+                    new MySqlParameter("@search", $"%{search}%")
+                };
+
+                var dt = await _db.ExecuteQueryAsync(query, parameters);
+                if (dt.Rows.Count > 0)
+                {
+                    var row = dt.Rows[0];
+                    _selectedSoldierId = Convert.ToInt32(row["SoldierID"]);
+                    txtRank.Text = row["Rank"].ToString();
+                    txtUnit.Text = row["UnitName"].ToString();
+                }
             }
-            catch (Exception ex) { MessageBox.Show("Lỗi tải khen thưởng: " + ex.Message); }
+            catch { }
         }
 
         private void dgRewards_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -65,21 +65,6 @@ namespace MilitaryRewardApp.Views
             if (dgRewards.SelectedItem is DataRowView row)
             {
                 _selectedRewardId = Convert.ToInt32(row["RewardID"]);
-                txtDecision.Text = row["DecisionNumber"].ToString();
-                cboType.Text = row["RewardType"].ToString();
-                txtReason.Text = row["Reason"].ToString();
-                if (row["DateSigned"] != DBNull.Value)
-                {
-                    dpDate.SelectedDate = Convert.ToDateTime(row["DateSigned"]);
-                }
-            }
-            else
-            {
-                _selectedRewardId = null;
-                txtDecision.Text = "";
-                cboType.SelectedIndex = -1;
-                txtReason.Text = "";
-                dpDate.SelectedDate = null;
             }
         }
 
@@ -87,13 +72,13 @@ namespace MilitaryRewardApp.Views
         {
             if (_selectedSoldierId == null)
             {
-                MessageBox.Show("Vui lòng chọn quân nhân trước.");
+                MessageBox.Show("Vui lòng tìm và chọn quân nhân.");
                 return;
             }
             try
             {
                 string type = (cboType.SelectedItem as ComboBoxItem)?.Content.ToString() ?? "";
-                string date = dpDate.SelectedDate?.ToString("yyyy-MM-dd");
+                string date = dpDate.SelectedDate?.ToString("yyyy-MM-dd") ?? DateTime.Now.ToString("yyyy-MM-dd");
 
                 string query = @"INSERT INTO Rewards (SoldierID, DecisionNumber, RewardType, Reason, DateSigned) 
                                  VALUES (@Sid, @Dec, @Type, @Reason, @Date)";
@@ -101,68 +86,29 @@ namespace MilitaryRewardApp.Views
                 var param = new MySqlParameter[]
                 {
                     new MySqlParameter("@Sid", _selectedSoldierId),
-                    new MySqlParameter("@Dec", txtDecision.Text),
+                    new MySqlParameter("@Dec", "PROPOSAL-" + DateTime.Now.Ticks.ToString().Substring(10)),
                     new MySqlParameter("@Type", type),
                     new MySqlParameter("@Reason", txtReason.Text),
                     new MySqlParameter("@Date", date)
                 };
 
                 await _db.ExecuteNonQueryAsync(query, param);
-                LoadRewards();
+                MessageBox.Show("Đã gửi đề xuất thành công!");
+                LoadAllRewards();
                 ClearForm();
             }
-            catch (Exception ex) { MessageBox.Show("Lỗi thêm: " + ex.Message); }
-        }
-
-        private async void Update_Click(object sender, RoutedEventArgs e)
-        {
-            if (_selectedRewardId == null) return;
-            try
-            {
-                string type = (cboType.SelectedItem as ComboBoxItem)?.Content.ToString() ?? "";
-                string date = dpDate.SelectedDate?.ToString("yyyy-MM-dd");
-
-                string query = @"UPDATE Rewards SET DecisionNumber=@Dec, RewardType=@Type, Reason=@Reason, DateSigned=@Date 
-                                 WHERE RewardID=@Rid";
-
-                var param = new MySqlParameter[]
-                {
-                    new MySqlParameter("@Dec", txtDecision.Text),
-                    new MySqlParameter("@Type", type),
-                    new MySqlParameter("@Reason", txtReason.Text),
-                    new MySqlParameter("@Date", date),
-                    new MySqlParameter("@Rid", _selectedRewardId)
-                };
-
-                await _db.ExecuteNonQueryAsync(query, param);
-                LoadRewards();
-                ClearForm();
-            }
-            catch (Exception ex) { MessageBox.Show("Lỗi sửa: " + ex.Message); }
-        }
-
-        private async void Delete_Click(object sender, RoutedEventArgs e)
-        {
-            if (_selectedRewardId == null) return;
-            if (MessageBox.Show("Xóa quyết định này?", "Xác nhận", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-            {
-                try
-                {
-                    await _db.ExecuteNonQueryAsync($"DELETE FROM Rewards WHERE RewardID={_selectedRewardId}");
-                    LoadRewards();
-                    ClearForm();
-                }
-                catch (Exception ex) { MessageBox.Show("Lỗi xóa: " + ex.Message); }
-            }
+            catch (Exception ex) { MessageBox.Show("Lỗi: " + ex.Message); }
         }
 
         private void ClearForm()
         {
-            _selectedRewardId = null;
-            txtDecision.Text = "";
-            cboType.SelectedIndex = -1;
+            _selectedSoldierId = null;
+            txtSearchSoldier.Text = "";
+            txtRank.Text = "";
+            txtUnit.Text = "";
             txtReason.Text = "";
             dpDate.SelectedDate = null;
+            cboType.SelectedIndex = -1;
         }
     }
 }

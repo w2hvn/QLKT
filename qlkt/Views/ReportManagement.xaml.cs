@@ -5,10 +5,10 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using ClosedXML.Excel;
-using MilitaryRewardApp.Data;
+using QLKT.Data;
 using MySqlConnector;
 
-namespace MilitaryRewardApp.Views
+namespace QLKT.Views
 {
     public partial class ReportManagement : UserControl
     {
