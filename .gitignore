@@ -1,0 +1,96 @@
+# =========================
+# Visual Studio
+# =========================
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# =========================
+# Build folders
+# =========================
+bin/
+obj/
+Debug/
+Release/
+x64/
+x86/
+
+# =========================
+# .NET Core / .NET
+# =========================
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# =========================
+# Logs
+# =========================
+*.log
+
+# =========================
+# Windows
+# =========================
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# =========================
+# Mac (nếu có dùng)
+# =========================
+.DS_Store
+
+# =========================
+# Rider / JetBrains (nếu có)
+# =========================
+.idea/
+*.sln.iml
+
+# =========================
+# Resharper
+# =========================
+_ReSharper*/
+*.DotSettings.user
+
+# =========================
+# NuGet
+# =========================
+*.nupkg
+packages/
+!packages/build/
+
+# =========================
+# Publish output
+# =========================
+publish/
+*.publish.xml
+
+# =========================
+# Temporary files
+# =========================
+*.tmp
+*.temp
+
+# =========================
+# Test Results
+# =========================
+TestResults/
+
+# =========================
+# WPF specific (optional)
+# =========================
+*.g.cs
+*.g.i.cs
+*.baml
+
+# =========================
+# Local database
+# =========================
+*.mdf
+*.ldf
+
+# =========================
+# Visual Studio Code
+# =========================
+.vscode/
