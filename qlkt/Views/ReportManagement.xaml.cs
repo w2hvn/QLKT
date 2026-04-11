@@ -46,9 +46,9 @@ namespace QLKT.Views
                 if (chkRank.IsChecked == true) { selectedColumns.Add("s.Rank"); displayHeaders.Add("Cấp bậc"); }
                 if (chkUnit.IsChecked == true) { selectedColumns.Add("u.UnitName"); displayHeaders.Add("Đơn vị"); }
                 if (chkPos.IsChecked == true) { selectedColumns.Add("s.Position"); displayHeaders.Add("Chức vụ"); }
-                if (chkReward.IsChecked == true) { selectedColumns.Add("r.RewardType"); displayHeaders.Add("Khen thưởng"); }
+                if (chkReward.IsChecked == true) { selectedColumns.Add("c.CategoryName"); displayHeaders.Add("Khen thưởng"); }
                 if (chkReason.IsChecked == true) { selectedColumns.Add("r.Reason"); displayHeaders.Add("Lý do"); }
-                if (chkDate.IsChecked == true) { selectedColumns.Add("r.DateSigned"); displayHeaders.Add("Ngày ký"); }
+                if (chkDate.IsChecked == true) { selectedColumns.Add("r.DateProposed"); displayHeaders.Add("Ngày ký"); }
 
                 if (selectedColumns.Count == 0)
                 {
@@ -58,9 +58,9 @@ namespace QLKT.Views
 
                 string selectClause = string.Join(", ", selectedColumns);
                 string baseQuery = $@"SELECT {selectClause} 
-                                      FROM Rewards r
+                                      FROM Proposals r
                                       JOIN Soldiers s ON r.SoldierID = s.SoldierID
-                                      LEFT JOIN Units u ON s.UnitID = u.UnitID
+                                      LEFT JOIN Units u ON s.UnitID = u.UnitID LEFT JOIN RewardCategories c ON r.CategoryID = c.CategoryID
                                       WHERE 1=1";
 
                 // Filters
@@ -71,17 +71,17 @@ namespace QLKT.Views
 
                 if (dpFrom.SelectedDate != null)
                 {
-                    baseQuery += $" AND r.DateSigned >= '{dpFrom.SelectedDate:yyyy-MM-dd}'";
+                    baseQuery += $" AND r.DateProposed >= '{dpFrom.SelectedDate:yyyy-MM-dd}'";
                 }
 
                 if (dpTo.SelectedDate != null)
                 {
-                    baseQuery += $" AND r.DateSigned <= '{dpTo.SelectedDate:yyyy-MM-dd}'";
+                    baseQuery += $" AND r.DateProposed <= '{dpTo.SelectedDate:yyyy-MM-dd}'";
                 }
 
                 if (cboRewardType.SelectedItem is ComboBoxItem item && item.Content.ToString() != "Tất cả")
                 {
-                    baseQuery += $" AND r.RewardType = '{item.Content}'";
+                    baseQuery += $" AND c.CategoryName = '{item.Content}'";
                 }
 
                 _currentData = await _db.ExecuteQueryAsync(baseQuery);

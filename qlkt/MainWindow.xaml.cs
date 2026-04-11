@@ -31,12 +31,26 @@ namespace QLKT
         {
             InitializeComponent();
 
+            ApplyRoleBasedAccess();
+
             // Subscribe to event from RewardProposalView
             _rewardProposalView.OnCreateNewProposalRequested += RewardProposalView_OnCreateNewProposalRequested;
 
             MainContent.Content = _dashboardView;
             UpdateSubNavStyle(borderSubNavOverview, txtSubNavOverview);
             UpdateSidebarStyle(btnNavOverview);
+        }
+
+        private void ApplyRoleBasedAccess()
+        {
+            // App.CurrentUserRole contains the role of the logged in user
+            string role = App.CurrentUserRole?.ToLower() ?? "";
+
+            if (role != "admin" && role != "quản trị viên")
+            {
+                btnNavApproval.Visibility = Visibility.Collapsed;
+                btnNavUsers.Visibility = Visibility.Collapsed;
+            }
         }
 
         private void RewardProposalView_OnCreateNewProposalRequested(object sender, EventArgs e)
@@ -116,7 +130,7 @@ namespace QLKT
         private void Nav_RewardCategory_Click(object sender, RoutedEventArgs e)
         {
             MainContent.Content = _createProposalView;
-            txtSubNavOverview.Text = "Danh mục Khen thưởng";
+            txtSubNavOverview.Text = "Tạo đề xuất mới";
             UpdateSubNavStyle(borderSubNavOverview, txtSubNavOverview);
             UpdateSidebarStyle(btnNavRewardCategory);
         }
