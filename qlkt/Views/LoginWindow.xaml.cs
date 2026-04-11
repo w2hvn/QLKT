@@ -13,7 +13,30 @@ namespace QLKT.Views
         {
             InitializeComponent();
             _db = new DatabaseContext();
-            txtPassword.Password = "admin123"; // Auto-fill for demo
+
+            LoadSavedCredentials();
+        }
+
+        private void LoadSavedCredentials()
+        {
+            // Simple mockup of saved credentials logic using basic Base64 encoding to avoid pure plaintext (In real app, use Windows Data Protection API - DPAPI)
+            try
+            {
+                if (System.IO.File.Exists("user.dat"))
+                {
+                    string encoded = System.IO.File.ReadAllText("user.dat");
+                    var bytes = Convert.FromBase64String(encoded);
+                    string decoded = System.Text.Encoding.UTF8.GetString(bytes);
+                    var parts = decoded.Split('|');
+                    if (parts.Length == 2)
+                    {
+                        txtUsername.Text = parts[0];
+                        txtPassword.Password = parts[1];
+                        chkRememberMe.IsChecked = true;
+                    }
+                }
+            }
+            catch { }
         }
 
         private async void Login_Click(object sender, RoutedEventArgs e)
@@ -45,6 +68,20 @@ namespace QLKT.Views
                     DataRow row = dt.Rows[0];
                     App.CurrentUserRole = row["Role"].ToString();
                     App.CurrentUserName = row["FullName"].ToString();
+
+                    if (chkRememberMe.IsChecked == true)
+                    {
+                        string data = $"{username}|{password}";
+                        string encoded = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(data));
+                        System.IO.File.WriteAllText("user.dat", encoded);
+                    }
+                    else
+                    {
+                        if (System.IO.File.Exists("user.dat"))
+                        {
+                            System.IO.File.Delete("user.dat");
+                        }
+                    }
 
                     MainWindow main = new MainWindow();
                     main.Show();

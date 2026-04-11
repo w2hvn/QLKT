@@ -25,6 +25,7 @@ namespace QLKT
         private CreateProposalView _createProposalView = new CreateProposalView();
         private ReportManagement _reportManagementView = new ReportManagement();
         private UserManagementView _userManagementView = new UserManagementView();
+        private SoldierProfileView _soldierProfileView = new SoldierProfileView();
         private SettingsView _settingsView = new SettingsView();
 
         public MainWindow()
@@ -32,13 +33,33 @@ namespace QLKT
             InitializeComponent();
 
             ApplyRoleBasedAccess();
+            LoadUserInfo();
 
-            // Subscribe to event from RewardProposalView
+            // Subscribe to events
             _rewardProposalView.OnCreateNewProposalRequested += RewardProposalView_OnCreateNewProposalRequested;
+            _rewardListView.OnSoldierSelected += RewardListView_OnSoldierSelected;
 
             MainContent.Content = _dashboardView;
             UpdateSubNavStyle(borderSubNavOverview, txtSubNavOverview);
             UpdateSidebarStyle(btnNavOverview);
+        }
+
+        private void RewardListView_OnSoldierSelected(object sender, int soldierId)
+        {
+            NavigateToSoldierProfile(soldierId);
+        }
+
+        private void LoadUserInfo()
+        {
+            txtUserNameTop.Text = App.CurrentUserName;
+            txtUserRoleTop.Text = App.CurrentUserRole;
+        }
+
+        private void BtnLogout_Click(object sender, RoutedEventArgs e)
+        {
+            var loginWindow = new LoginWindow();
+            loginWindow.Show();
+            this.Close();
         }
 
         private void ApplyRoleBasedAccess()
@@ -87,12 +108,22 @@ namespace QLKT
             btnNavRewardCategory.Tag = "Secondary";
             btnNavReport.Tag = "Secondary";
             btnNavUsers.Tag = "Secondary";
+            btnNavProfile.Tag = "Secondary";
             btnNavSettings.Tag = "Secondary";
 
             if (activeButton != null)
             {
                 activeButton.Tag = "Dark";
             }
+        }
+
+        public void NavigateToSoldierProfile(int soldierId)
+        {
+            _soldierProfileView.LoadProfile(soldierId);
+            MainContent.Content = _soldierProfileView;
+            txtSubNavOverview.Text = "Hồ sơ cá nhân";
+            UpdateSubNavStyle(borderSubNavOverview, txtSubNavOverview);
+            UpdateSidebarStyle(null);
         }
 
         private void Nav_Dashboard_Click(object sender, RoutedEventArgs e)
@@ -149,6 +180,14 @@ namespace QLKT
             txtSubNavOverview.Text = "Quản lý Người dùng";
             UpdateSubNavStyle(borderSubNavOverview, txtSubNavOverview);
             UpdateSidebarStyle(btnNavUsers);
+        }
+
+        private void Nav_Profile_Click(object sender, RoutedEventArgs e)
+        {
+            MainContent.Content = _soldierProfileView;
+            txtSubNavOverview.Text = "Thành tích cá nhân";
+            UpdateSubNavStyle(borderSubNavOverview, txtSubNavOverview);
+            UpdateSidebarStyle(btnNavProfile);
         }
 
         private void Nav_Settings_Click(object sender, RoutedEventArgs e)

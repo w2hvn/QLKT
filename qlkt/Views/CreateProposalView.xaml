@@ -17,11 +17,11 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Text="Chiến sĩ được đề xuất" Style="{StaticResource Text.Caption}" Margin="0,0,0,8"/>
+                    <TextBlock Text="Chiến sĩ được đề xuất (Mã hoặc Tên)" Style="{StaticResource Text.Caption}" Margin="0,0,0,8"/>
                     <Grid Grid.Row="1">
-                        <TextBox Padding="30,8,8,8" Height="36"/>
+                        <TextBox x:Name="txtSearchSoldier" Padding="30,8,8,8" Height="36" TextChanged="txtSearchSoldier_TextChanged"/>
                         <TextBlock Text="🔍" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0" Foreground="{StaticResource Brush.Text.Muted}"/>
-                        <TextBlock Text="Tìm kiếm bằng tên hoặc mã..." VerticalAlignment="Center" HorizontalAlignment="Left" Margin="32,0" IsHitTestVisible="False" Foreground="{StaticResource Brush.Text.Muted}"/>
+                        <TextBlock x:Name="lblSearchHint" Text="Tìm kiếm bằng tên hoặc mã..." VerticalAlignment="Center" HorizontalAlignment="Left" Margin="32,0" IsHitTestVisible="False" Foreground="{StaticResource Brush.Text.Muted}"/>
                     </Grid>
                 </Grid>
 
@@ -34,22 +34,18 @@
 
                     <StackPanel Grid.Column="0">
                         <TextBlock Text="Loại khen thưởng" Style="{StaticResource Text.Caption}" Margin="0,0,0,8"/>
-                        <ComboBox Height="36">
-                            <ComboBoxItem Content="Huân chương Chiến công"/>
-                            <ComboBoxItem Content="Bằng khen"/>
-                            <ComboBoxItem Content="Giấy khen"/>
-                        </ComboBox>
+                        <ComboBox x:Name="cboRewardCategory" Height="36" DisplayMemberPath="CategoryName" SelectedValuePath="CategoryID"/>
                     </StackPanel>
 
                     <StackPanel Grid.Column="2">
                         <TextBlock Text="Cấp bậc hiện tại" Style="{StaticResource Text.Caption}" Margin="0,0,0,8"/>
-                        <TextBox Height="36" IsReadOnly="True" Background="#F8F9FA"/>
+                        <TextBox x:Name="txtRank" Height="36" IsReadOnly="True" Background="#F8F9FA"/>
                     </StackPanel>
                 </Grid>
 
                 <StackPanel Margin="0,0,0,16">
                     <TextBlock Text="Lý do đề xuất" Style="{StaticResource Text.Caption}" Margin="0,0,0,8"/>
-                    <TextBox Height="100" AcceptsReturn="True" TextWrapping="Wrap" Padding="8"/>
+                    <TextBox x:Name="txtReason" Height="100" AcceptsReturn="True" TextWrapping="Wrap" Padding="8"/>
                 </StackPanel>
 
                 <Grid Margin="0,0,0,24">
@@ -61,12 +57,12 @@
 
                     <StackPanel Grid.Column="0">
                         <TextBlock Text="Ngày đề xuất" Style="{StaticResource Text.Caption}" Margin="0,0,0,8"/>
-                        <DatePicker Height="36"/>
+                        <DatePicker x:Name="dpDate" Height="36"/>
                     </StackPanel>
 
                     <StackPanel Grid.Column="2">
                         <TextBlock Text="Đơn vị" Style="{StaticResource Text.Caption}" Margin="0,0,0,8"/>
-                        <TextBox Height="36" IsReadOnly="True" Background="#F8F9FA"/>
+                        <TextBox x:Name="txtUnit" Height="36" IsReadOnly="True" Background="#F8F9FA"/>
                     </StackPanel>
                 </Grid>
 

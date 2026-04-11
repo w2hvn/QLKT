@@ -15,10 +15,12 @@
             <TextBlock Text="Mật khẩu:" Margin="0,5"/>
             <PasswordBox x:Name="txtPassword"/>
             
+            <CheckBox x:Name="chkRememberMe" Content="Duy trì đăng nhập" Margin="0,10"/>
+
             <TextBlock x:Name="lblError" Foreground="Red" Margin="0,5" Visibility="Collapsed"/>
             
             <Button Content="Đăng Nhập" Style="{StaticResource Button}" Tag="Primary"
-                    Click="Login_Click" Margin="0,20,0,0"/>
+                    Click="Login_Click" Margin="0,10,0,0"/>
         </StackPanel>
     </Grid>
 </Window>

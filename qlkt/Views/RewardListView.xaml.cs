@@ -1,37 +1,77 @@
+using System;
 using System.Collections.ObjectModel;
+using System.Data;
+using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
+using System.Windows.Input;
+using QLKT.Data;
 
 namespace QLKT.Views
 {
     public partial class RewardListView : UserControl
     {
         public ObservableCollection<RewardItem> Rewards { get; set; }
+        private readonly DatabaseContext _db;
+        public event EventHandler<int> OnSoldierSelected;
 
         public RewardListView()
         {
             InitializeComponent();
-            LoadData();
+            _db = new DatabaseContext();
+            Rewards = new ObservableCollection<RewardItem>();
             dgRewardList.ItemsSource = Rewards;
+            LoadData();
         }
 
-        private void LoadData()
+        private async void LoadData()
         {
-            Rewards = new ObservableCollection<RewardItem>
+            try
             {
-                new RewardItem { STT = 1, Name = "Đặng Văn Tú", Rank = "Trung tá", Unit = "Sư đoàn 301", Status = "Đã phê duyệt", StatusBackground = "#C6A87C", StatusForeground = "White" },
-                new RewardItem { STT = 2, Name = "Lê Thị Mai", Rank = "Đại úy", Unit = "Quân đoàn 1", Status = "Đang chờ", StatusBackground = "#001529", StatusForeground = "White" },
-                new RewardItem { STT = 3, Name = "Nguyễn Hữu Minh", Rank = "Thượng úy", Unit = "Sư đoàn 324", Status = "Đang đề xuất", StatusBackground = "White", StatusForeground = "#C6A87C" },
-                new RewardItem { STT = 4, Name = "Trần Đức Hoài", Rank = "Thiếu tá", Unit = "Sư đoàn 301", Status = "Đã phê duyệt", StatusBackground = "#C6A87C", StatusForeground = "White" },
-                new RewardItem { STT = 5, Name = "Lê Thị Mai", Rank = "Đại úy", Unit = "Quân đoàn 1", Status = "Đang chờ", StatusBackground = "#001529", StatusForeground = "White" },
-                new RewardItem { STT = 6, Name = "Nguyễn Hữu Tú", Rank = "Thượng úy", Unit = "Sư đoàn 324", Status = "Đã phê duyệt", StatusBackground = "#C6A87C", StatusForeground = "White" }
-            };
+                string query = @"
+                    SELECT s.SoldierID, s.FullName, s.Rank, u.UnitName, p.Status
+                    FROM Proposals p
+                    JOIN Soldiers s ON p.SoldierID = s.SoldierID
+                    LEFT JOIN Units u ON s.UnitID = u.UnitID
+                    WHERE p.Status = 'Đã phê duyệt'";
+
+                DataTable dt = await _db.ExecuteQueryAsync(query);
+                Rewards.Clear();
+                int stt = 1;
+
+                foreach (DataRow row in dt.Rows)
+                {
+                    Rewards.Add(new RewardItem
+                    {
+                        STT = stt++,
+                        SoldierID = Convert.ToInt32(row["SoldierID"]),
+                        Name = row["FullName"].ToString(),
+                        Rank = row["Rank"].ToString(),
+                        Unit = row["UnitName"]?.ToString() ?? "",
+                        Status = row["Status"].ToString(),
+                        StatusBackground = "#C6A87C",
+                        StatusForeground = "White"
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi tải danh sách khen thưởng: " + ex.Message);
+            }
+        }
+
+        private void dgRewardList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (dgRewardList.SelectedItem is RewardItem item)
+            {
+                OnSoldierSelected?.Invoke(this, item.SoldierID);
+            }
         }
     }
 
     public class RewardItem
     {
         public int STT { get; set; }
+        public int SoldierID { get; set; }
         public string Name { get; set; }
         public string Rank { get; set; }
         public string Unit { get; set; }

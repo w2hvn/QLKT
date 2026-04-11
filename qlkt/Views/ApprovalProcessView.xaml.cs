@@ -1,26 +1,54 @@
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Windows;
 using System.Windows.Controls;
+using QLKT.Data;
 
 namespace QLKT.Views
 {
     public partial class ApprovalProcessView : UserControl
     {
+        private readonly DatabaseContext _db;
+
         public ApprovalProcessView()
         {
             InitializeComponent();
+            _db = new DatabaseContext();
             LoadData();
         }
 
-        private void LoadData()
+        private async void LoadData()
         {
-            var pending = new List<PendingItem>
+            try
             {
-                new PendingItem { ID = "DX-01", Name = "Nguyễn Văn A", Unit = "Tiểu đoàn 1", Date = "15/10/2023" },
-                new PendingItem { ID = "DX-02", Name = "Lê Hoàng Tú", Unit = "Phòng Tham mưu", Date = "14/10/2023" },
-                new PendingItem { ID = "DX-03", Name = "Trần Thị Lan", Unit = "Bệnh xá", Date = "12/10/2023" }
-            };
-            dgPending.ItemsSource = pending;
+                string query = @"
+                    SELECT p.ProposalID, p.ProposalCode, s.FullName, u.UnitName, p.DateProposed
+                    FROM Proposals p
+                    JOIN Soldiers s ON p.SoldierID = s.SoldierID
+                    LEFT JOIN Units u ON s.UnitID = u.UnitID
+                    WHERE p.Status = 'Chờ phê duyệt'";
+
+                DataTable dt = await _db.ExecuteQueryAsync(query);
+                var pending = new List<PendingItem>();
+
+                foreach (DataRow row in dt.Rows)
+                {
+                    pending.Add(new PendingItem
+                    {
+                        ID = row["ProposalCode"].ToString(),
+                        Name = row["FullName"].ToString(),
+                        Unit = row["UnitName"].ToString(),
+                        Date = Convert.ToDateTime(row["DateProposed"]).ToString("dd/MM/yyyy")
+                    });
+                }
+
+                dgPending.ItemsSource = pending;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi tải danh sách phê duyệt: " + ex.Message);
+            }
         }
 
         private void dgPending_SelectionChanged(object sender, SelectionChangedEventArgs e)

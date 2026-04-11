@@ -1,25 +1,49 @@
+using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Windows;
 using System.Windows.Controls;
+using QLKT.Data;
 
 namespace QLKT.Views
 {
     public partial class UserManagementView : UserControl
     {
+        private readonly DatabaseContext _db;
+
         public UserManagementView()
         {
             InitializeComponent();
+            _db = new DatabaseContext();
             LoadData();
         }
 
-        private void LoadData()
+        private async void LoadData()
         {
-            var users = new List<UserItem>
+            try
             {
-                new UserItem { ID = "NV001", FullName = "Nguyễn Văn Hùng", Username = "hungnv", Role = "Quản trị viên", Status = "Hoạt động" },
-                new UserItem { ID = "NV002", FullName = "Trần Thị Lan", Username = "lantt", Role = "Người dùng", Status = "Hoạt động" },
-                new UserItem { ID = "NV003", FullName = "Lê Hoàng Tú", Username = "tulh", Role = "Người dùng", Status = "Khóa" }
-            };
-            dgUsers.ItemsSource = users;
+                string query = "SELECT UserID, Username, FullName, Role, Status FROM Users";
+                DataTable dt = await _db.ExecuteQueryAsync(query);
+                var users = new List<UserItem>();
+
+                foreach (DataRow row in dt.Rows)
+                {
+                    users.Add(new UserItem
+                    {
+                        ID = row["UserID"].ToString(),
+                        Username = row["Username"].ToString(),
+                        FullName = row["FullName"].ToString(),
+                        Role = row["Role"].ToString(),
+                        Status = row["Status"].ToString()
+                    });
+                }
+
+                dgUsers.ItemsSource = users;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi tải danh sách người dùng: " + ex.Message);
+            }
         }
     }
 
