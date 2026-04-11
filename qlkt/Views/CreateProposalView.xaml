@@ -76,7 +76,7 @@
                 </Border>
 
                 <!-- Action Button -->
-                <Button Content="GỬI ĐỀ XUẤT" Style="{StaticResource Button}" Tag="Dark" Height="44" HorizontalAlignment="Right" Width="150" Click="BtnSubmit_Click"/>
+                <Button HorizontalContentAlignment="Center" Content="GỬI ĐỀ XUẤT" Style="{StaticResource Button}" Tag="Dark" Height="44" HorizontalAlignment="Right" Width="150" Click="BtnSubmit_Click"/>
             </StackPanel>
         </Border>
     </Grid>

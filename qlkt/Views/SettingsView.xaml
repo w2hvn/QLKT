@@ -40,7 +40,7 @@
                     <TextBlock Text="Giữ phiên đăng nhập (Nhớ mật khẩu)" VerticalAlignment="Center"/>
                 </StackPanel>
 
-                <Button Content="LƯU CÀI ĐẶT" Style="{StaticResource Button}" Tag="Primary" Width="150" HorizontalAlignment="Left" Margin="0,16,0,0" Click="BtnSave_Click"/>
+                <Button Content="LƯU CÀI ĐẶT" Style="{StaticResource Button}" HorizontalContentAlignment="Center" Height="30" Tag="Primary" Width="150" HorizontalAlignment="Left" Margin="0,16,0,0" Click="BtnSave_Click"/>
             </StackPanel>
         </Border>
     </Grid>

@@ -32,56 +32,56 @@
             <!-- Menu Items -->
             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
                 <StackPanel Margin="10,10,0,10">
-                    <Button x:Name="btnNavOverview" Click="Nav_Dashboard_Click" Style="{StaticResource Button}" Tag="Dark" HorizontalContentAlignment="Left" Padding="24,12" Margin="0,2,10,2">
+                    <Button Height="30" x:Name="btnNavOverview" Click="Nav_Dashboard_Click" Style="{StaticResource Button}" Tag="Dark" HorizontalContentAlignment="Left" Padding="24,12" Margin="0,2,10,2">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="📊" Margin="0,0,12,0" FontFamily="Segoe UI Emoji"/>
                             <TextBlock Text="Tổng quan" Margin="0,0,0,0"/>
                         </StackPanel>
                     </Button>
-                    <Button x:Name="btnNavRewardList" Click="Nav_RewardList_Click" Style="{StaticResource Button}" Tag="Secondary" HorizontalContentAlignment="Left" Padding="24,12" Margin="0,2,10,2">
+                    <Button Height="30" x:Name="btnNavRewardList" Click="Nav_RewardList_Click" Style="{StaticResource Button}" Tag="Secondary" HorizontalContentAlignment="Left" Padding="24,12" Margin="0,2,10,2">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="📋" Margin="0,0,12,0" FontFamily="Segoe UI Emoji"/>
                             <TextBlock Text="Danh sách Khen thưởng"/>
                         </StackPanel>
                     </Button>
-                    <Button x:Name="btnNavProposal" Click="Nav_Proposal_Click" Style="{StaticResource Button}" Tag="Secondary" HorizontalContentAlignment="Left" Padding="24,12" Margin="0,2,10,2">
+                    <Button Height="30" x:Name="btnNavProposal" Click="Nav_Proposal_Click" Style="{StaticResource Button}" Tag="Secondary" HorizontalContentAlignment="Left" Padding="24,12" Margin="0,2,10,2">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="📝" Margin="0,0,12,0" FontFamily="Segoe UI Emoji"/>
                             <TextBlock Text="Đề xuất Khen thưởng"/>
                         </StackPanel>
                     </Button>
-                    <Button x:Name="btnNavApproval" Click="Nav_Approval_Click" Style="{StaticResource Button}" Tag="Secondary" HorizontalContentAlignment="Left" Padding="24,12" Margin="0,2,10,2">
+                    <Button Height="30" x:Name="btnNavApproval" Click="Nav_Approval_Click" Style="{StaticResource Button}" Tag="Secondary" HorizontalContentAlignment="Left" Padding="24,12" Margin="0,2,10,2">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="✔️" Margin="0,0,12,0" FontFamily="Segoe UI Emoji"/>
                             <TextBlock Text="Phê duyệt"/>
                         </StackPanel>
                     </Button>
 
-                    <Button x:Name="btnNavRewardCategory" Click="Nav_RewardCategory_Click" Style="{StaticResource Button}" Tag="Secondary" HorizontalContentAlignment="Left" Padding="24,12" Margin="0,2,10,2">
+                    <Button Height="30" x:Name="btnNavRewardCategory" Click="Nav_RewardCategory_Click" Style="{StaticResource Button}" Tag="Secondary" HorizontalContentAlignment="Left" Padding="24,12" Margin="0,2,10,2">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="➕" Margin="0,0,12,0" FontFamily="Segoe UI Emoji"/>
                             <TextBlock Text="Tạo đề xuất mới"/>
                         </StackPanel>
                     </Button>
-                    <Button x:Name="btnNavReport" Click="Nav_Report_Click" Style="{StaticResource Button}" Tag="Secondary" HorizontalContentAlignment="Left" Padding="24,12" Margin="0,2,10,2">
+                    <Button Height="30" x:Name="btnNavReport" Click="Nav_Report_Click" Style="{StaticResource Button}" Tag="Secondary" HorizontalContentAlignment="Left" Padding="24,12" Margin="0,2,10,2">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="📈" Margin="0,0,12,0" FontFamily="Segoe UI Emoji"/>
                             <TextBlock Text="Thống kê &amp; Báo cáo"/>
                         </StackPanel>
                     </Button>
-                    <Button x:Name="btnNavUsers" Click="Nav_Users_Click" Style="{StaticResource Button}" Tag="Secondary" HorizontalContentAlignment="Left" Padding="24,12" Margin="0,2,10,2">
+                    <Button Height="30" x:Name="btnNavUsers" Click="Nav_Users_Click" Style="{StaticResource Button}" Tag="Secondary" HorizontalContentAlignment="Left" Padding="24,12" Margin="0,2,10,2">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="👥" Margin="0,0,12,0" FontFamily="Segoe UI Emoji"/>
                             <TextBlock Text="Quản lý Người dùng"/>
                         </StackPanel>
                     </Button>
-                    <Button x:Name="btnNavProfile" Click="Nav_Profile_Click" Style="{StaticResource Button}" Tag="Secondary" HorizontalContentAlignment="Left" Padding="24,12" Margin="0,2,10,2">
+                    <Button Height="30" x:Name="btnNavProfile" Click="Nav_Profile_Click" Style="{StaticResource Button}" Tag="Secondary" HorizontalContentAlignment="Left" Padding="24,12" Margin="0,2,10,2">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="🎖️" Margin="0,0,12,0" FontFamily="Segoe UI Emoji"/>
                             <TextBlock Text="Thành tích cá nhân"/>
                         </StackPanel>
                     </Button>
-                    <Button x:Name="btnNavSettings" Click="Nav_Settings_Click" Style="{StaticResource Button}" Tag="Secondary" HorizontalContentAlignment="Left" Padding="24,12" Margin="0,2,10,2">
+                    <Button Height="30" x:Name="btnNavSettings" Click="Nav_Settings_Click" Style="{StaticResource Button}" Tag="Secondary" HorizontalContentAlignment="Left" Padding="24,12" Margin="0,2,10,2">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="⚙️" Margin="0,0,12,0" FontFamily="Segoe UI Emoji"/>
                             <TextBlock Text="Cài đặt"/>
