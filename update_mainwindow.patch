@@ -1,0 +1,91 @@
+--- /app/qlkt/MainWindow.xaml
++++ /app/qlkt/MainWindow.xaml
+@@ -28,53 +28,53 @@
+             </StackPanel>
+
+             <!-- Menu Items -->
+             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+-                <StackPanel Margin="0,10">
+-                    <Button Style="{StaticResource Button}" Tag="Secondary" HorizontalContentAlignment="Left" Padding="24,12" Margin="0,2">
++                <StackPanel Margin="10,10,0,10">
++                    <Button x:Name="btnNavOverview" Click="Nav_Dashboard_Click" Style="{StaticResource Button}" Tag="Dark" HorizontalContentAlignment="Left" Padding="24,12" Margin="0,2,10,2">
+                         <StackPanel Orientation="Horizontal">
+                             <TextBlock Text="📊" Margin="0,0,12,0" FontFamily="Segoe UI Emoji"/>
+                             <TextBlock Text="Tổng quan" Margin="0,0,0,0"/>
+                         </StackPanel>
+                     </Button>
+-                    <Button Style="{StaticResource Button}" Tag="Secondary" HorizontalContentAlignment="Left" Padding="24,12" Margin="0,2">
++                    <Button x:Name="btnNavRewardList" Click="Nav_RewardList_Click" Style="{StaticResource Button}" Tag="Secondary" HorizontalContentAlignment="Left" Padding="24,12" Margin="0,2,10,2">
+                         <StackPanel Orientation="Horizontal">
+                             <TextBlock Text="📋" Margin="0,0,12,0" FontFamily="Segoe UI Emoji"/>
+                             <TextBlock Text="Danh sách Khen thưởng"/>
+                         </StackPanel>
+                     </Button>
+-                    <Button Style="{StaticResource Button}" Tag="Secondary" HorizontalContentAlignment="Left" Padding="24,12" Margin="0,2">
++                    <Button Style="{StaticResource Button}" Tag="Secondary" HorizontalContentAlignment="Left" Padding="24,12" Margin="0,2,10,2">
+                         <StackPanel Orientation="Horizontal">
+                             <TextBlock Text="📝" Margin="0,0,12,0" FontFamily="Segoe UI Emoji"/>
+                             <TextBlock Text="Đề xuất Khen thưởng"/>
+                         </StackPanel>
+                     </Button>
+-                    <Button Style="{StaticResource Button}" Tag="Secondary" HorizontalContentAlignment="Left" Padding="24,12" Margin="0,2">
++                    <Button Style="{StaticResource Button}" Tag="Secondary" HorizontalContentAlignment="Left" Padding="24,12" Margin="0,2,10,2">
+                         <StackPanel Orientation="Horizontal">
+                             <TextBlock Text="✔️" Margin="0,0,12,0" FontFamily="Segoe UI Emoji"/>
+                             <TextBlock Text="Phê duyệt"/>
+                         </StackPanel>
+                     </Button>
+-                    <!-- Active Item -->
+-                    <Button Style="{StaticResource Button}" Tag="Dark" HorizontalContentAlignment="Left" Padding="24,12" Margin="0,2">
++
++                    <Button Style="{StaticResource Button}" Tag="Secondary" HorizontalContentAlignment="Left" Padding="24,12" Margin="0,2,10,2">
+                         <StackPanel Orientation="Horizontal">
+                             <TextBlock Text="📁" Margin="0,0,12,0" FontFamily="Segoe UI Emoji"/>
+                             <TextBlock Text="Danh mục Khen thưởng"/>
+                         </StackPanel>
+                     </Button>
+-                    <Button Style="{StaticResource Button}" Tag="Secondary" HorizontalContentAlignment="Left" Padding="24,12" Margin="0,2">
++                    <Button Style="{StaticResource Button}" Tag="Secondary" HorizontalContentAlignment="Left" Padding="24,12" Margin="0,2,10,2">
+                         <StackPanel Orientation="Horizontal">
+                             <TextBlock Text="📈" Margin="0,0,12,0" FontFamily="Segoe UI Emoji"/>
+                             <TextBlock Text="Thống kê &amp; Báo cáo"/>
+                         </StackPanel>
+                     </Button>
+-                    <Button Style="{StaticResource Button}" Tag="Secondary" HorizontalContentAlignment="Left" Padding="24,12" Margin="0,2">
++                    <Button Style="{StaticResource Button}" Tag="Secondary" HorizontalContentAlignment="Left" Padding="24,12" Margin="0,2,10,2">
+                         <StackPanel Orientation="Horizontal">
+                             <TextBlock Text="👥" Margin="0,0,12,0" FontFamily="Segoe UI Emoji"/>
+                             <TextBlock Text="Quản lý Người dùng"/>
+                         </StackPanel>
+                     </Button>
+-                    <Button Style="{StaticResource Button}" Tag="Secondary" HorizontalContentAlignment="Left" Padding="24,12" Margin="0,2">
++                    <Button Style="{StaticResource Button}" Tag="Secondary" HorizontalContentAlignment="Left" Padding="24,12" Margin="0,2,10,2">
+                         <StackPanel Orientation="Horizontal">
+                             <TextBlock Text="⚙️" Margin="0,0,12,0" FontFamily="Segoe UI Emoji"/>
+                             <TextBlock Text="Cài đặt"/>
+                         </StackPanel>
+@@ -124,17 +124,13 @@
+             <!-- BREADCRUMBS / SUB-NAV -->
+-            <Border Grid.Row="1" Background="White" Padding="24,0,24,15">
++            <Border Grid.Row="1" Background="White" Padding="24,0,24,0" BorderBrush="#E8E8E8" BorderThickness="0,0,0,1">
+                 <Grid>
+                     <StackPanel Orientation="Horizontal">
+-                        <!-- We use MouseLeftButtonDown event to handle clicking for navigation since they are TextBlocks -->
+-                        <Border x:Name="borderDashboardOverview" Background="Transparent" CornerRadius="4" Padding="12,6" Margin="0,0,12,0" MouseLeftButtonDown="Nav_Dashboard_Click" Cursor="Hand">
+-                            <TextBlock Text="Dashboard Overview" Foreground="{StaticResource Brush.Text.Secondary}" FontWeight="Bold"/>
++                        <Border x:Name="borderSubNavOverview" Padding="0,0,0,10" Margin="0,0,20,0" BorderThickness="0,0,0,3" BorderBrush="#001529" Cursor="Hand" MouseLeftButtonDown="Nav_Dashboard_Click">
++                            <TextBlock x:Name="txtSubNavOverview" Text="Dashboard Overview" Foreground="#001529" FontWeight="Bold"/>
+                         </Border>
+-                        <Border x:Name="borderSoldierProfile" Background="Transparent" CornerRadius="4" Padding="12,6" Margin="0,0,12,0" MouseLeftButtonDown="Nav_SoldierProfile_Click" Cursor="Hand">
+-                            <TextBlock Text="Hồ sơ Chiến sĩ" Foreground="{StaticResource Brush.Text.Secondary}" FontWeight="Bold"/>
+-                        </Border>
+-                        <Border x:Name="borderRewardManagement" Background="Transparent" CornerRadius="4" Padding="12,6" Margin="0,0,12,0" MouseLeftButtonDown="Nav_RewardManagement_Click" Cursor="Hand">
+-                            <TextBlock Text="QUẢN LÝ KHEN THƯỞNG" Foreground="{StaticResource Brush.Text.Secondary}" FontWeight="Bold"/>
++                        <Border x:Name="borderSubNavReward" Padding="0,0,0,10" Margin="0,0,20,0" BorderThickness="0,0,0,3" BorderBrush="Transparent" Cursor="Hand" MouseLeftButtonDown="Nav_RewardList_Click">
++                            <TextBlock x:Name="txtSubNavReward" Text="Khen khen thưởng" Foreground="#666666" FontWeight="SemiBold"/>
+                         </Border>
+                     </StackPanel>
+-                    <TextBlock Text="Ngày: 15/10/2023" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{StaticResource Brush.Text.Secondary}"/>
++                    <TextBlock Text="Ngày: 12/10/2023 ∨" HorizontalAlignment="Right" VerticalAlignment="Top" Foreground="#333333"/>
+                 </Grid>
+             </Border>

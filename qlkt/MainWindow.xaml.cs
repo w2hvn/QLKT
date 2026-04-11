@@ -20,50 +20,59 @@ namespace QLKT
         private DashboardOverviewView _dashboardView = new DashboardOverviewView();
         private SoldierProfileView _soldierProfileView = new SoldierProfileView();
         private RewardProposalView _rewardProposalView = new RewardProposalView();
+        private RewardListView _rewardListView = new RewardListView();
 
         public MainWindow()
         {
             InitializeComponent();
-            NavigateTo(_dashboardView, borderDashboardOverview);
+            MainContent.Content = _dashboardView;
+            UpdateSubNavStyle(borderSubNavOverview, txtSubNavOverview);
+            UpdateSidebarStyle(btnNavOverview);
         }
 
-        private void ResetNavStyles()
+        private void UpdateSubNavStyle(Border activeBorder, TextBlock activeText)
         {
-            borderDashboardOverview.Background = Brushes.Transparent;
-            ((TextBlock)borderDashboardOverview.Child).Foreground = (Brush)Application.Current.Resources["Brush.Text.Secondary"];
+            // Reset all sub-navs
+            borderSubNavOverview.BorderBrush = Brushes.Transparent;
+            txtSubNavOverview.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#666666"));
+            txtSubNavOverview.FontWeight = FontWeights.SemiBold;
 
-            borderSoldierProfile.Background = Brushes.Transparent;
-            ((TextBlock)borderSoldierProfile.Child).Foreground = (Brush)Application.Current.Resources["Brush.Text.Secondary"];
+            borderSubNavReward.BorderBrush = Brushes.Transparent;
+            txtSubNavReward.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#666666"));
+            txtSubNavReward.FontWeight = FontWeights.SemiBold;
 
-            borderRewardManagement.Background = Brushes.Transparent;
-            ((TextBlock)borderRewardManagement.Child).Foreground = (Brush)Application.Current.Resources["Brush.Text.Secondary"];
+            // Set active
+            if (activeBorder != null && activeText != null)
+            {
+                activeBorder.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#001529"));
+                activeText.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#001529"));
+                activeText.FontWeight = FontWeights.Bold;
+            }
         }
 
-        private void NavigateTo(UserControl view, Border activeBorder)
+        private void UpdateSidebarStyle(Button activeButton)
         {
-            ResetNavStyles();
+            btnNavOverview.Tag = "Secondary";
+            btnNavRewardList.Tag = "Secondary";
 
-            // Set active style
-            var color = (Color)ColorConverter.ConvertFromString("#001529");
-            activeBorder.Background = new SolidColorBrush(color);
-            ((TextBlock)activeBorder.Child).Foreground = Brushes.White;
-
-            MainContent.Content = view;
+            if (activeButton != null)
+            {
+                activeButton.Tag = "Dark";
+            }
         }
 
-        private void Nav_Dashboard_Click(object sender, MouseButtonEventArgs e)
+        private void Nav_Dashboard_Click(object sender, RoutedEventArgs e)
         {
-            NavigateTo(_dashboardView, borderDashboardOverview);
+            MainContent.Content = _dashboardView;
+            UpdateSubNavStyle(borderSubNavOverview, txtSubNavOverview);
+            UpdateSidebarStyle(btnNavOverview);
         }
 
-        private void Nav_SoldierProfile_Click(object sender, MouseButtonEventArgs e)
+        private void Nav_RewardList_Click(object sender, RoutedEventArgs e)
         {
-            NavigateTo(_soldierProfileView, borderSoldierProfile);
-        }
-
-        private void Nav_RewardManagement_Click(object sender, MouseButtonEventArgs e)
-        {
-            NavigateTo(_rewardProposalView, borderRewardManagement);
+            MainContent.Content = _rewardListView;
+            UpdateSubNavStyle(borderSubNavReward, txtSubNavReward);
+            UpdateSidebarStyle(btnNavRewardList);
         }
     }
 }

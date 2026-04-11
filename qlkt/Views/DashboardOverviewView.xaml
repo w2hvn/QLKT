@@ -6,101 +6,115 @@
 
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <Grid Margin="0,0,0,20">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+            <StackPanel>
+                <!-- KPI Cards -->
+                <Grid Margin="0,0,0,20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-            <!-- Filter Bar -->
-            <Border Grid.Row="0" Background="White" CornerRadius="8" Padding="15" Margin="0,0,0,16" BorderBrush="#E8E8E8" BorderThickness="1">
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <TextBlock Text="Đơn vị" VerticalAlignment="Center" FontWeight="Bold" Margin="0,0,10,0"/>
-                    <Border BorderBrush="#D9D9D9" BorderThickness="1" CornerRadius="4" Padding="5" Margin="0,0,20,0">
-                        <StackPanel Orientation="Horizontal">
-                            <Border Background="#F0F0F0" CornerRadius="4" Padding="8,4" Margin="0,0,5,0">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="Sư đoàn 301"/>
-                                    <TextBlock Text="×" Margin="5,0,0,0" Foreground="#999" Cursor="Hand"/>
-                                </StackPanel>
+                    <!-- Card 1 -->
+                    <Border Grid.Column="0" Background="White" CornerRadius="8" Padding="20" Margin="0,0,16,0" BorderBrush="#E8E8E8" BorderThickness="1">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Border Width="60" Height="60" CornerRadius="30" Background="#FFF7E6" Margin="0,0,15,0">
+                                <TextBlock Text="⭐" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FAAD14"/>
                             </Border>
-                            <TextBlock Text="Sư đoàn 316" VerticalAlignment="Center" Margin="5,0"/>
-                            <TextBlock Text="Sư đoàn 315" VerticalAlignment="Center" Margin="5,0"/>
-                            <TextBlock Text="Sư đoàn 318" VerticalAlignment="Center" Margin="5,0"/>
-                            <TextBlock Text="Sư đoàn 318" VerticalAlignment="Center" Margin="5,0"/>
-                            <TextBlock Text="v" VerticalAlignment="Center" Margin="10,0,5,0" Foreground="#999"/>
-                        </StackPanel>
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock Text="TỔNG SỐ CHIẾN SĨ ĐƯỢC&#x0a;KHEN THƯỞNG" FontWeight="Bold" Foreground="#333333" FontSize="12"/>
+                                <TextBlock Text="18,745" FontWeight="Bold" FontSize="28" Foreground="#001529" Margin="0,5,0,0"/>
+                                <TextBlock Text="+2.1% so với tháng trước" Foreground="#52C41A" FontSize="12"/>
+                            </StackPanel>
+                        </Grid>
                     </Border>
 
-                    <TextBlock Text="Thời gian" VerticalAlignment="Center" FontWeight="Bold" Margin="0,0,10,0"/>
-                    <Border BorderBrush="#D9D9D9" BorderThickness="1" CornerRadius="4" Padding="10,5">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="📅" Margin="0,0,5,0"/>
-                            <TextBlock Text="Năm nay (2023)"/>
-                            <TextBlock Text="v" Margin="10,0,0,0" Foreground="#999"/>
-                        </StackPanel>
+                    <!-- Card 2 -->
+                    <Border Grid.Column="1" Background="White" CornerRadius="8" Padding="20" Margin="0,0,16,0" BorderBrush="#E8E8E8" BorderThickness="1">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Border Width="60" Height="60" CornerRadius="30" Background="#F0F5FF" Margin="0,0,15,0">
+                                <TextBlock Text="⚠️" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#1890FF"/>
+                            </Border>
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock Text="PHÊ DUYỆT ĐANG CHỜ" FontWeight="Bold" Foreground="#333333" FontSize="12"/>
+                                <TextBlock Text="143" FontWeight="Bold" FontSize="28" Foreground="#001529" Margin="0,5,0,0"/>
+                                <TextBlock Text="Đang chờ xử lý" Foreground="#666666" FontSize="12"/>
+                            </StackPanel>
+                        </Grid>
                     </Border>
-                </StackPanel>
-            </Border>
 
-            <!-- Charts Grid -->
-            <Grid Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="1*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="350"/>
-                    <RowDefinition Height="350"/>
-                </Grid.RowDefinitions>
+                    <!-- Card 3 -->
+                    <Border Grid.Column="2" Background="White" CornerRadius="8" Padding="20" BorderBrush="#E8E8E8" BorderThickness="1">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Border Width="60" Height="60" CornerRadius="30" Background="#FFF1F0" Margin="0,0,15,0">
+                                <TextBlock Text="🏅" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#F5222D"/>
+                            </Border>
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock Text="DANH MỤC KHEN THƯỞNG" FontWeight="Bold" Foreground="#333333" FontSize="12"/>
+                                <TextBlock Text="45" FontWeight="Bold" FontSize="28" Foreground="#001529" Margin="0,5,0,0"/>
+                                <TextBlock Text="Huân chương, Huy chương, v.v." Foreground="#666666" FontSize="12"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </Grid>
 
-                <!-- Chart 1: Thống kê khen thưởng theo tháng -->
-                <Border Grid.Row="0" Grid.Column="0" Background="White" CornerRadius="8" Padding="20" Margin="0,0,16,16" BorderBrush="#E8E8E8" BorderThickness="1">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <TextBlock Text="THỐNG KÊ KHEN THƯỞNG THEO THÁNG (2023)" FontWeight="Bold" FontSize="14" Margin="0,0,0,10"/>
-                        <lvc:CartesianChart Grid.Row="1" Series="{Binding MonthlyRewardsSeries}" XAxes="{Binding MonthlyRewardsXAxes}" LegendPosition="Top"/>
-                    </Grid>
-                </Border>
+                <!-- Charts Row 1 -->
+                <Grid Height="350">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-                <!-- Chart 2: Cơ cấu khen thưởng theo loại -->
-                <Border Grid.Row="0" Grid.Column="1" Background="White" CornerRadius="8" Padding="20" Margin="0,0,0,16" BorderBrush="#E8E8E8" BorderThickness="1">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <TextBlock Text="CƠ CẤU KHEN THƯỞNG THEO LOẠI" FontWeight="Bold" FontSize="14" Margin="0,0,0,10"/>
-                        <lvc:PieChart Grid.Row="1" Series="{Binding RewardTypesSeries}" LegendPosition="Right" InitialRotation="-90"/>
-                    </Grid>
-                </Border>
+                    <!-- Chart 1 -->
+                    <Border Grid.Column="0" Background="White" CornerRadius="8" Padding="20" Margin="0,0,16,0" BorderBrush="#E8E8E8" BorderThickness="1">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="XU HƯỚNG KHEN THƯỞNG THEO THÁNG" FontWeight="Bold" FontSize="14" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                            <lvc:CartesianChart Grid.Row="1" Series="{Binding TrendSeries}" XAxes="{Binding TrendXAxes}" LegendPosition="Top"/>
+                        </Grid>
+                    </Border>
 
-                <!-- Chart 3: Xu hướng đề xuất và phê duyệt -->
-                <Border Grid.Row="1" Grid.Column="0" Background="White" CornerRadius="8" Padding="20" Margin="0,0,16,0" BorderBrush="#E8E8E8" BorderThickness="1">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <TextBlock Text="XU HƯỚNG ĐỀ XUẤT VÀ PHÊ DUYỆT" FontWeight="Bold" FontSize="14" Margin="0,0,0,10"/>
-                        <lvc:CartesianChart Grid.Row="1" Series="{Binding TrendSeries}" XAxes="{Binding TrendXAxes}" LegendPosition="Top"/>
-                    </Grid>
-                </Border>
+                    <!-- Chart 2 -->
+                    <Border Grid.Column="1" Background="White" CornerRadius="8" Padding="20" Margin="0,0,16,0" BorderBrush="#E8E8E8" BorderThickness="1">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="CƠ CẤU KHEN THƯỞNG THEO LOẠI" FontWeight="Bold" FontSize="14" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                            <lvc:PieChart Grid.Row="1" Series="{Binding RewardTypesSeries}" InitialRotation="-90"/>
+                        </Grid>
+                    </Border>
 
-                <!-- Chart 4: Top đơn vị xuất sắc -->
-                <Border Grid.Row="1" Grid.Column="1" Background="White" CornerRadius="8" Padding="20" Margin="0,0,0,0" BorderBrush="#E8E8E8" BorderThickness="1">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <TextBlock Text="TOP ĐƠN VỊ XUẤT SẮC" FontWeight="Bold" FontSize="14" Margin="0,0,0,10"/>
-                        <lvc:CartesianChart Grid.Row="1" Series="{Binding TopUnitsSeries}" YAxes="{Binding TopUnitsYAxes}"/>
-                    </Grid>
-                </Border>
-            </Grid>
+                    <!-- Chart 3 -->
+                    <Border Grid.Column="2" Background="White" CornerRadius="8" Padding="20" BorderBrush="#E8E8E8" BorderThickness="1">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="SỐ LƯỢNG KHEN THƯỞNG THEO ĐƠN VỊ" FontWeight="Bold" FontSize="14" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                            <lvc:CartesianChart Grid.Row="1" Series="{Binding TopUnitsSeries}" XAxes="{Binding TopUnitsXAxes}"/>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </StackPanel>
         </Grid>
     </ScrollViewer>
 </UserControl>
