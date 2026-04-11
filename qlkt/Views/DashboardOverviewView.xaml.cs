@@ -15,6 +15,37 @@ namespace QLKT.Views
             DataContext = this;
         }
 
+        private void Filter_Changed(object sender, SelectionChangedEventArgs e)
+        {
+            ReloadData();
+        }
+
+        private void BtnRefresh_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            ReloadData();
+        }
+
+        private void ReloadData()
+        {
+            // In a real app, this would query the DB based on filters
+            // For now, we simulate data change by slightly modifying values or just "refreshing"
+
+            // Randomize some values to show change
+            var rnd = new System.Random();
+            if (TrendSeries != null && TrendSeries.Length > 0)
+            {
+                foreach (var series in TrendSeries)
+                {
+                    if (series is LineSeries<int> lineSeries)
+                    {
+                        var vals = new int[10];
+                        for(int i=0; i<10; i++) vals[i] = rnd.Next(5, 20);
+                        lineSeries.Values = vals;
+                    }
+                }
+            }
+        }
+
         // 1. Xu hướng khen thưởng theo tháng (Line Chart)
         public ISeries[] TrendSeries { get; set; } = new ISeries[]
         {

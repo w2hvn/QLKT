@@ -9,6 +9,8 @@ namespace QLKT.Views
     public partial class SoldierProfileView : UserControl
     {
         private readonly DatabaseContext _db;
+        public event EventHandler<int> OnCreateProposalRequested;
+        private int _currentSoldierId;
 
         public SoldierProfileView()
         {
@@ -18,6 +20,7 @@ namespace QLKT.Views
 
         public async void LoadProfile(int soldierId)
         {
+            _currentSoldierId = soldierId;
             try
             {
                 string query = @"
@@ -50,6 +53,11 @@ namespace QLKT.Views
             {
                 MessageBox.Show("Lỗi tải hồ sơ: " + ex.Message);
             }
+        }
+
+        private void BtnCreateProposal_Click(object sender, RoutedEventArgs e)
+        {
+            OnCreateProposalRequested?.Invoke(this, _currentSoldierId);
         }
     }
 }

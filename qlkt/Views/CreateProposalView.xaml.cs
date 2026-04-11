@@ -19,6 +19,40 @@ namespace QLKT.Views
 
         private int _selectedSoldierId = 0;
 
+        public void SetSoldier(int soldierId)
+        {
+            _selectedSoldierId = soldierId;
+            LoadSoldierDetails(soldierId);
+        }
+
+        private async void LoadSoldierDetails(int soldierId)
+        {
+            try
+            {
+                string query = @"
+                    SELECT s.SoldierID, s.FullName, s.Rank, u.UnitName, s.SoldierCode
+                    FROM Soldiers s
+                    LEFT JOIN Units u ON s.UnitID = u.UnitID
+                    WHERE s.SoldierID = @Id";
+
+                var parameters = new MySqlConnector.MySqlParameter[]
+                {
+                    new MySqlConnector.MySqlParameter("@Id", soldierId)
+                };
+
+                DataTable dt = await _db.ExecuteQueryAsync(query, parameters);
+                if (dt.Rows.Count > 0)
+                {
+                    DataRow row = dt.Rows[0];
+                    txtSearchSoldier.Text = row["FullName"].ToString();
+                    txtRank.Text = row["Rank"].ToString();
+                    txtUnit.Text = row["UnitName"].ToString();
+                    lblSearchHint.Visibility = Visibility.Collapsed;
+                }
+            }
+            catch { }
+        }
+
         private async void LoadCategories()
         {
             try

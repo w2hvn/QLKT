@@ -18,6 +18,12 @@ namespace QLKT
     /// </summary>
     public partial class MainWindow : Window
     {
+        // Global State
+        public int SelectedSoldierId { get; set; }
+        public int SelectedProposalId { get; set; }
+        public string CurrentUser { get; set; }
+        public string Filters { get; set; }
+
         private DashboardOverviewView _dashboardView = new DashboardOverviewView();
         private RewardProposalView _rewardProposalView = new RewardProposalView();
         private RewardListView _rewardListView = new RewardListView();
@@ -27,6 +33,7 @@ namespace QLKT
         private UserManagementView _userManagementView = new UserManagementView();
         private SoldierProfileView _soldierProfileView = new SoldierProfileView();
         private SettingsView _settingsView = new SettingsView();
+        private CategoryView _categoryView = new CategoryView();
 
         public MainWindow()
         {
@@ -38,6 +45,7 @@ namespace QLKT
             // Subscribe to events
             _rewardProposalView.OnCreateNewProposalRequested += RewardProposalView_OnCreateNewProposalRequested;
             _rewardListView.OnSoldierSelected += RewardListView_OnSoldierSelected;
+            _soldierProfileView.OnCreateProposalRequested += SoldierProfileView_OnCreateProposalRequested;
 
             MainContent.Content = _dashboardView;
             UpdateSubNavStyle(borderSubNavOverview, txtSubNavOverview);
@@ -46,11 +54,13 @@ namespace QLKT
 
         private void RewardListView_OnSoldierSelected(object sender, int soldierId)
         {
+            SelectedSoldierId = soldierId;
             NavigateToSoldierProfile(soldierId);
         }
 
         private void LoadUserInfo()
         {
+            CurrentUser = App.CurrentUserName;
             txtUserNameTop.Text = App.CurrentUserName;
             txtUserRoleTop.Text = App.CurrentUserRole;
         }
@@ -77,10 +87,22 @@ namespace QLKT
         private void RewardProposalView_OnCreateNewProposalRequested(object sender, EventArgs e)
         {
             // When user clicks "Tạo đề xuất mới" in the Proposal list view, navigate to the Create form view
+            _createProposalView = new CreateProposalView(); // New instance to clear state
             MainContent.Content = _createProposalView;
             txtSubNavOverview.Text = "Tạo đề xuất mới";
             UpdateSubNavStyle(borderSubNavOverview, txtSubNavOverview);
             UpdateSidebarStyle(btnNavRewardCategory); // Focus the corresponding sidebar menu item
+        }
+
+        private void SoldierProfileView_OnCreateProposalRequested(object sender, int soldierId)
+        {
+            SelectedSoldierId = soldierId;
+            _createProposalView = new CreateProposalView();
+            _createProposalView.SetSoldier(soldierId);
+            MainContent.Content = _createProposalView;
+            txtSubNavOverview.Text = "Tạo đề xuất mới";
+            UpdateSubNavStyle(borderSubNavOverview, txtSubNavOverview);
+            UpdateSidebarStyle(btnNavRewardCategory);
         }
 
         private void UpdateSubNavStyle(Border activeBorder, TextBlock activeText)
@@ -160,8 +182,8 @@ namespace QLKT
 
         private void Nav_RewardCategory_Click(object sender, RoutedEventArgs e)
         {
-            MainContent.Content = _createProposalView;
-            txtSubNavOverview.Text = "Tạo đề xuất mới";
+            MainContent.Content = _categoryView;
+            txtSubNavOverview.Text = "Danh mục Khen thưởng";
             UpdateSubNavStyle(borderSubNavOverview, txtSubNavOverview);
             UpdateSidebarStyle(btnNavRewardCategory);
         }

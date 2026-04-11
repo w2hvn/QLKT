@@ -102,7 +102,7 @@
                             <TextBlock Text="• Thành tích Huân chương Chiến công hạng 3" Margin="0,0,0,4" TextWrapping="Wrap"/>
                             <TextBlock Text="• Hiện còn quỹ thái hàng" Margin="0,0,0,4"/>
                         </StackPanel>
-                        <TextBlock Text="Những khát lạ v" HorizontalAlignment="Right" Foreground="#666666" Margin="0,10,0,0" Cursor="Hand"/>
+                        <Button Content="TẠO ĐỀ XUẤT" Click="BtnCreateProposal_Click" Style="{StaticResource Button}" Tag="Primary" Height="36" Margin="0,10,0,0"/>
                     </StackPanel>
                 </Border>
             </Grid>
