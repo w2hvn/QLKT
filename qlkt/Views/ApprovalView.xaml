@@ -10,7 +10,7 @@
         <Border Background="White" CornerRadius="8" Padding="24">
             <StackPanel>
                 <TextBlock Text="PHÊ DUYỆT ĐỀ XUẤT" Style="{StaticResource Text.Heading.Medium}" Margin="0,0,0,16"/>
-                <TextBlock Text="Danh sách các đề xuất đang chờ phê duyệt sẽ được hiển thị tại đây." Style="{StaticResource Text.Body}"/>
+                <TextBlock Text="Danh sách các đề xuất đang chờ phê duyệt sẽ được hiển thị tại đây." Style="{StaticResource Text.Body.Large}"/>
             </StackPanel>
         </Border>
     </Grid>

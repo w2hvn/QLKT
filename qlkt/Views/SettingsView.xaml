@@ -10,7 +10,7 @@
         <Border Background="White" CornerRadius="8" Padding="24">
             <StackPanel>
                 <TextBlock Text="CÀI ĐẶT HỆ THỐNG" Style="{StaticResource Text.Heading.Medium}" Margin="0,0,0,16"/>
-                <TextBlock Text="Cấu hình các tham số hệ thống tại đây." Style="{StaticResource Text.Body}"/>
+                <TextBlock Text="Cấu hình các tham số hệ thống tại đây." Style="{StaticResource Text.Body.Large}"/>
             </StackPanel>
         </Border>
     </Grid>
