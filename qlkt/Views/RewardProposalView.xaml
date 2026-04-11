@@ -1,0 +1,233 @@
+<UserControl x:Class="QLKT.Views.RewardProposalView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:QLKT.Views"
+             mc:Ignorable="d"
+             d:DesignHeight="700" d:DesignWidth="1000" Background="#F5F6FA">
+
+    <UserControl.Resources>
+        <Style x:Key="StatCardStyle" TargetType="Border">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Padding" Value="20"/>
+            <Setter Property="Margin" Value="0,0,15,0"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="#DDDDDD" BlurRadius="10" ShadowDepth="2" Opacity="0.5"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="HeaderTextStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="#2C3E50"/>
+        </Style>
+
+        <!-- Datagrid styles -->
+        <Style TargetType="DataGrid">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#E0E0E0"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="RowBackground" Value="White"/>
+            <Setter Property="AlternatingRowBackground" Value="#F9F9F9"/>
+            <Setter Property="AutoGenerateColumns" Value="False"/>
+            <Setter Property="CanUserAddRows" Value="False"/>
+            <Setter Property="GridLinesVisibility" Value="Horizontal"/>
+            <Setter Property="HorizontalGridLinesBrush" Value="#E0E0E0"/>
+            <Setter Property="HeadersVisibility" Value="Column"/>
+            <Setter Property="RowHeight" Value="45"/>
+        </Style>
+
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="#F8F9FA"/>
+            <Setter Property="Foreground" Value="#6C757D"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="10,0"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="BorderBrush" Value="#E0E0E0"/>
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+        </Style>
+
+        <Style TargetType="DataGridCell">
+            <Setter Property="Padding" Value="10,0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGridCell}">
+                        <Border Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="#E3F2FD"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <TextBlock Text="QUẢN LÝ ĐỀ XUẤT KHEN THƯỞNG" Style="{StaticResource HeaderTextStyle}" Margin="0,0,0,20"/>
+
+        <!-- Stat Cards -->
+        <Grid Grid.Row="1" Margin="0,0,0,20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Card 1 -->
+            <Border Grid.Column="0" Style="{StaticResource StatCardStyle}">
+                <StackPanel>
+                    <TextBlock Text="Tổng số đề xuất" Foreground="#6C757D" FontSize="14" FontWeight="SemiBold"/>
+                    <TextBlock Text="124" Foreground="#8E44AD" FontSize="28" FontWeight="Bold" Margin="0,5,0,0"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Card 2 -->
+            <Border Grid.Column="1" Style="{StaticResource StatCardStyle}">
+                <StackPanel>
+                    <TextBlock Text="Chờ phê duyệt" Foreground="#6C757D" FontSize="14" FontWeight="SemiBold"/>
+                    <TextBlock Text="18" Foreground="#F39C12" FontSize="28" FontWeight="Bold" Margin="0,5,0,0"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Card 3 -->
+            <Border Grid.Column="2" Style="{StaticResource StatCardStyle}">
+                <StackPanel>
+                    <TextBlock Text="Đã phê duyệt" Foreground="#6C757D" FontSize="14" FontWeight="SemiBold"/>
+                    <TextBlock Text="92" Foreground="#27AE60" FontSize="28" FontWeight="Bold" Margin="0,5,0,0"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Card 4 -->
+            <Border Grid.Column="3" Style="{StaticResource StatCardStyle}" Margin="0">
+                <StackPanel>
+                    <TextBlock Text="Đã từ chối" Foreground="#6C757D" FontSize="14" FontWeight="SemiBold"/>
+                    <TextBlock Text="14" Foreground="#E74C3C" FontSize="28" FontWeight="Bold" Margin="0,5,0,0"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <!-- Filters and Actions -->
+        <Border Grid.Row="2" Background="White" CornerRadius="10" Padding="15" Margin="0,0,0,20">
+            <Border.Effect>
+                <DropShadowEffect Color="#DDDDDD" BlurRadius="10" ShadowDepth="2" Opacity="0.5"/>
+            </Border.Effect>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="1.5*"/>
+                    <ColumnDefinition Width="1.5*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBox Grid.Column="0" Margin="0,0,10,0" Padding="10,8" VerticalContentAlignment="Center"
+                         Text="Tìm kiếm theo tên hoặc mã..." Foreground="#999" Background="#F8F9FA" BorderBrush="#E0E0E0">
+                    <TextBox.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="5"/>
+                        </Style>
+                    </TextBox.Resources>
+                </TextBox>
+
+                <ComboBox Grid.Column="1" Margin="0,0,10,0" Padding="10,8" VerticalContentAlignment="Center" SelectedIndex="0" Background="White" BorderBrush="#E0E0E0">
+                    <ComboBoxItem Content="Tất cả đơn vị"/>
+                    <ComboBoxItem Content="Tiểu đoàn 1"/>
+                    <ComboBoxItem Content="Tiểu đoàn 2"/>
+                </ComboBox>
+
+                <ComboBox Grid.Column="2" Margin="0,0,10,0" Padding="10,8" VerticalContentAlignment="Center" SelectedIndex="0" Background="White" BorderBrush="#E0E0E0">
+                    <ComboBoxItem Content="Tất cả trạng thái"/>
+                    <ComboBoxItem Content="Chờ phê duyệt"/>
+                    <ComboBoxItem Content="Đã phê duyệt"/>
+                </ComboBox>
+
+                <ComboBox Grid.Column="3" Margin="0,0,10,0" Padding="10,8" VerticalContentAlignment="Center" SelectedIndex="0" Background="White" BorderBrush="#E0E0E0">
+                    <ComboBoxItem Content="Năm nay"/>
+                    <ComboBoxItem Content="Năm ngoái"/>
+                </ComboBox>
+
+                <Button Grid.Column="4" Margin="0,0,10,0" Padding="15,8" Background="White" BorderBrush="#E0E0E0" Foreground="#2C3E50" FontWeight="SemiBold">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="5"/>
+                        </Style>
+                    </Button.Resources>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="⬇" Margin="0,0,5,0" FontSize="12" VerticalAlignment="Center"/>
+                        <TextBlock Text="Xuất báo cáo"/>
+                    </StackPanel>
+                </Button>
+
+                <Button Grid.Column="5" Padding="15,8" Background="#D81B60" BorderThickness="0" Foreground="White" FontWeight="SemiBold">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="5"/>
+                        </Style>
+                    </Button.Resources>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="+" Margin="0,0,5,0" FontSize="14" FontWeight="Bold" VerticalAlignment="Center"/>
+                        <TextBlock Text="Tạo đề xuất mới"/>
+                    </StackPanel>
+                </Button>
+            </Grid>
+        </Border>
+
+        <!-- Data Table -->
+        <Border Grid.Row="3" Background="White" CornerRadius="10">
+            <Border.Effect>
+                <DropShadowEffect Color="#DDDDDD" BlurRadius="10" ShadowDepth="2" Opacity="0.5"/>
+            </Border.Effect>
+            <DataGrid x:Name="ProposalsDataGrid" Margin="1" BorderThickness="0">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Mã ĐX" Binding="{Binding Id}" Width="100" FontWeight="SemiBold"/>
+                    <DataGridTextColumn Header="Họ và tên" Binding="{Binding FullName}" Width="150" FontWeight="SemiBold"/>
+                    <DataGridTextColumn Header="Đơn vị" Binding="{Binding Unit}" Width="180" Foreground="#6C757D"/>
+                    <DataGridTextColumn Header="Hình thức" Binding="{Binding RewardType}" Width="200"/>
+                    <DataGridTextColumn Header="Ngày đề xuất" Binding="{Binding Date}" Width="120"/>
+
+                    <DataGridTemplateColumn Header="Trạng thái" Width="140">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border CornerRadius="15" Padding="10,4" HorizontalAlignment="Left" VerticalAlignment="Center"
+                                        Background="{Binding StatusBackground}">
+                                    <TextBlock Text="{Binding Status}" Foreground="{Binding StatusForeground}" FontSize="12" FontWeight="SemiBold"/>
+                                </Border>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Header="Thao tác" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Background="Transparent" BorderThickness="0" Cursor="Hand" Padding="5">
+                                    <TextBlock Text="👁" FontSize="16" Foreground="#3498DB"/>
+                                </Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
+
+    </Grid>
+</UserControl>
