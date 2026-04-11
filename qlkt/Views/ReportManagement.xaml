@@ -1,0 +1,70 @@
+<UserControl x:Class="MilitaryRewardApp.Views.ReportManagement"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="1000">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/> <!-- Filters -->
+            <RowDefinition Height="Auto"/> <!-- Columns -->
+            <RowDefinition Height="*"/>    <!-- Preview -->
+            <RowDefinition Height="Auto"/> <!-- Actions -->
+        </Grid.RowDefinitions>
+
+        <!-- Filters -->
+        <GroupBox Header="Bộ lọc báo cáo" Margin="0,0,0,10">
+            <WrapPanel Margin="5">
+                <StackPanel Margin="0,0,15,0">
+                    <TextBlock Text="Đơn vị:"/>
+                    <ComboBox x:Name="cboUnitFilter" Width="150" DisplayMemberPath="UnitName" SelectedValuePath="UnitID"/>
+                </StackPanel>
+                
+                <StackPanel Margin="0,0,15,0">
+                    <TextBlock Text="Từ ngày:"/>
+                    <DatePicker x:Name="dpFrom" Width="120"/>
+                </StackPanel>
+                
+                <StackPanel Margin="0,0,15,0">
+                    <TextBlock Text="Đến ngày:"/>
+                    <DatePicker x:Name="dpTo" Width="120"/>
+                </StackPanel>
+                
+                <StackPanel>
+                    <TextBlock Text="Loại khen thưởng:"/>
+                    <ComboBox x:Name="cboRewardType" Width="150">
+                        <ComboBoxItem Content="Tất cả"/>
+                        <ComboBoxItem Content="Huân chương"/>
+                        <ComboBoxItem Content="Huy chương"/>
+                        <ComboBoxItem Content="Bằng khen"/>
+                        <ComboBoxItem Content="Giấy khen"/>
+                    </ComboBox>
+                </StackPanel>
+            </WrapPanel>
+        </GroupBox>
+
+        <!-- Dynamic Columns -->
+        <GroupBox Header="Chọn trường dữ liệu hiển thị" Grid.Row="1" Margin="0,0,0,10">
+            <WrapPanel Margin="5">
+                <CheckBox x:Name="chkCode" Content="Mã quân nhân" IsChecked="True" Margin="0,0,15,0"/>
+                <CheckBox x:Name="chkName" Content="Họ tên" IsChecked="True" Margin="0,0,15,0"/>
+                <CheckBox x:Name="chkRank" Content="Cấp bậc" IsChecked="True" Margin="0,0,15,0"/>
+                <CheckBox x:Name="chkUnit" Content="Đơn vị" IsChecked="True" Margin="0,0,15,0"/>
+                <CheckBox x:Name="chkPos" Content="Chức vụ" Margin="0,0,15,0"/>
+                <CheckBox x:Name="chkReward" Content="Hình thức khen thưởng" IsChecked="True" Margin="0,0,15,0"/>
+                <CheckBox x:Name="chkReason" Content="Lý do khen thưởng" IsChecked="True" Margin="0,0,15,0"/>
+                <CheckBox x:Name="chkDate" Content="Ngày quyết định" IsChecked="True" Margin="0,0,15,0"/>
+            </WrapPanel>
+        </GroupBox>
+
+        <!-- Preview -->
+        <DataGrid x:Name="dgReport" Grid.Row="2" AutoGenerateColumns="True" IsReadOnly="True" Margin="0,0,0,10"/>
+
+        <!-- Actions -->
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Xem báo cáo" Click="Generate_Click" Margin="0,0,10,0" Width="120"/>
+            <Button Content="Xuất Excel" Click="Export_Click" Background="Green" Foreground="White" Width="120"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

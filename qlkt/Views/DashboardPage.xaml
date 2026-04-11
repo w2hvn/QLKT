@@ -1,0 +1,59 @@
+<UserControl x:Class="MilitaryRewardApp.Views.DashboardPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <TextBlock Text="Bảng Điều Khiển" FontSize="24" FontWeight="Bold" Foreground="{StaticResource PrimaryBrush}" Margin="0,0,0,20"/>
+        
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <!-- Card 1: Soldiers -->
+            <Border Grid.Column="0" Background="White" CornerRadius="5" Padding="20">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="10" Color="Gray" Opacity="0.2"/>
+                </Border.Effect>
+                <StackPanel>
+                    <TextBlock Text="TỔNG QUÂN NHÂN" Foreground="Gray" FontWeight="Bold"/>
+                    <TextBlock x:Name="txtTotalSoldiers" Text="0" FontSize="36" FontWeight="Bold" Foreground="{StaticResource PrimaryBrush}" Margin="0,10,0,0"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Card 2: Rewards -->
+            <Border Grid.Column="2" Background="White" CornerRadius="5" Padding="20">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="10" Color="Gray" Opacity="0.2"/>
+                </Border.Effect>
+                <StackPanel>
+                    <TextBlock Text="KHEN THƯỞNG" Foreground="Gray" FontWeight="Bold"/>
+                    <TextBlock x:Name="txtTotalRewards" Text="0" FontSize="36" FontWeight="Bold" Foreground="{StaticResource AccentBrush}" Margin="0,10,0,0"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Card 3: Units -->
+            <Border Grid.Column="4" Background="White" CornerRadius="5" Padding="20">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="10" Color="Gray" Opacity="0.2"/>
+                </Border.Effect>
+                <StackPanel>
+                    <TextBlock Text="ĐƠN VỊ TRỰC THUỘC" Foreground="Gray" FontWeight="Bold"/>
+                    <TextBlock x:Name="txtTotalUnits" Text="0" FontSize="36" FontWeight="Bold" Foreground="{StaticResource SidebarBrush}" Margin="0,10,0,0"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>
