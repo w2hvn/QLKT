@@ -166,7 +166,7 @@
 
         <!-- DATA GRID -->
         <Border Grid.Row="2" CornerRadius="8" BorderBrush="#E0E0E0" BorderThickness="1" Background="White" ClipToBounds="True">
-            <DataGrid x:Name="dgRewardList" BorderThickness="0">
+            <DataGrid x:Name="dgRewardList" BorderThickness="0" MouseDoubleClick="dgRewardList_MouseDoubleClick">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="" Binding="{Binding STT}" Width="60">
                         <DataGridTextColumn.HeaderStyle>

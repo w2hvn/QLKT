@@ -38,8 +38,8 @@
                         <!-- Fallback Avatar text inside ellipse if needed -->
                         <TextBlock Text="👨‍✈️" FontSize="50" HorizontalAlignment="Center" Margin="0,-115,0,50" Foreground="Gray" RenderTransformOrigin="0.5,0.5"/>
 
-                        <TextBlock Text="Đặng Văn Tú" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,10,0,5"/>
-                        <TextBlock Text="Trung tá" FontSize="16" Foreground="#666666" HorizontalAlignment="Center"/>
+                        <TextBlock x:Name="txtFullName" Text="Đặng Văn Tú" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,10,0,5"/>
+                        <TextBlock x:Name="txtRank" Text="Trung tá" FontSize="16" Foreground="#666666" HorizontalAlignment="Center"/>
                     </StackPanel>
                 </Border>
 
@@ -53,31 +53,23 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="ID" Foreground="#666666"/>
-                            <TextBlock Grid.Column="1" Text="0000000002" HorizontalAlignment="Right"/>
+                            <TextBlock x:Name="txtSoldierCode" Grid.Column="1" Text="SQ001" HorizontalAlignment="Right"/>
                         </Grid>
                         <Grid Margin="0,0,0,12">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="80"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="Ngày sinh" Foreground="#666666"/>
-                            <TextBlock Grid.Column="1" Text="15/06/1993" HorizontalAlignment="Right"/>
+                            <TextBlock Text="Dân tộc" Foreground="#666666"/>
+                            <TextBlock x:Name="txtEthnicity" Grid.Column="1" Text="Kinh" HorizontalAlignment="Right"/>
                         </Grid>
                         <Grid Margin="0,0,0,12">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="80"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="Nơi sinh" Foreground="#666666"/>
-                            <TextBlock Grid.Column="1" Text="Việt Nam,&#x0a;Việt Nam" HorizontalAlignment="Right" TextAlignment="Right"/>
-                        </Grid>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="80"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Text="Điện thoại" Foreground="#666666"/>
-                            <TextBlock Grid.Column="1" Text="(098) 557 555" HorizontalAlignment="Right"/>
+                            <TextBlock Text="Tôn giáo" Foreground="#666666"/>
+                            <TextBlock x:Name="txtReligion" Grid.Column="1" Text="Không" HorizontalAlignment="Right" TextAlignment="Right"/>
                         </Grid>
                     </StackPanel>
                 </Border>
@@ -87,13 +79,13 @@
                     <StackPanel>
                         <TextBlock Text="Cấp bậc &amp; Đơn vị" FontWeight="Bold" FontSize="16" Margin="0,0,0,16"/>
                         <TextBlock Text="Cấp bậc hiện" Foreground="#666666" Margin="0,0,0,4"/>
-                        <TextBlock Text="Trung tá" Margin="0,0,0,12"/>
+                        <TextBlock x:Name="txtRank2" Text="Trung tá" Margin="0,0,0,12"/>
 
                         <TextBlock Text="Đơn vị" Foreground="#666666" Margin="0,0,0,4"/>
-                        <TextBlock Text="Sư đoàn 301" Margin="0,0,0,12"/>
+                        <TextBlock x:Name="txtUnit" Text="Sư đoàn 301" Margin="0,0,0,12"/>
 
-                        <TextBlock Text="Ngày cấp bậc" Foreground="#666666" Margin="0,0,0,4"/>
-                        <TextBlock Text="01/05/2023"/>
+                        <TextBlock Text="Chức vụ" Foreground="#666666" Margin="0,0,0,4"/>
+                        <TextBlock x:Name="txtPosition" Text="Cán bộ"/>
                     </StackPanel>
                 </Border>
 

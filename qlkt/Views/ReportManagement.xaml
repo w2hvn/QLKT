@@ -4,67 +4,105 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="1000">
-    <Grid Margin="10">
+             d:DesignHeight="700" d:DesignWidth="1000"
+             Background="{StaticResource Brush.Background}">
+    <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/> <!-- Filters -->
-            <RowDefinition Height="Auto"/> <!-- Columns -->
-            <RowDefinition Height="*"/>    <!-- Preview -->
-            <RowDefinition Height="Auto"/> <!-- Actions -->
+            <RowDefinition Height="Auto"/> <!-- Summary Cards -->
+            <RowDefinition Height="Auto"/> <!-- Filters & Columns -->
+            <RowDefinition Height="*"/>    <!-- DataGrid -->
         </Grid.RowDefinitions>
 
-        <!-- Filters -->
-        <GroupBox Header="Bộ lọc báo cáo" Margin="0,0,0,10">
-            <WrapPanel Margin="5">
-                <StackPanel Margin="0,0,15,0">
-                    <TextBlock Text="Đơn vị:"/>
-                    <ComboBox x:Name="cboUnitFilter" Width="150" DisplayMemberPath="UnitName" SelectedValuePath="UnitID"/>
-                </StackPanel>
-                
-                <StackPanel Margin="0,0,15,0">
-                    <TextBlock Text="Từ ngày:"/>
-                    <DatePicker x:Name="dpFrom" Width="120"/>
-                </StackPanel>
-                
-                <StackPanel Margin="0,0,15,0">
-                    <TextBlock Text="Đến ngày:"/>
-                    <DatePicker x:Name="dpTo" Width="120"/>
-                </StackPanel>
-                
+        <!-- Summary Cards -->
+        <Grid Grid.Row="0" Margin="0,0,0,16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="16"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="16"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" Background="White" CornerRadius="8" Padding="16">
                 <StackPanel>
-                    <TextBlock Text="Loại khen thưởng:"/>
-                    <ComboBox x:Name="cboRewardType" Width="150">
-                        <ComboBoxItem Content="Tất cả"/>
-                        <ComboBoxItem Content="Huân chương"/>
-                        <ComboBoxItem Content="Huy chương"/>
-                        <ComboBoxItem Content="Bằng khen"/>
-                        <ComboBoxItem Content="Giấy khen"/>
-                    </ComboBox>
+                    <TextBlock Text="Tổng số quyết định" Style="{StaticResource Text.Caption}" Foreground="{StaticResource Brush.Text.Muted}"/>
+                    <TextBlock Text="1,245" Style="{StaticResource Text.Heading.Medium}" Foreground="{StaticResource Brush.Primary}" Margin="0,4,0,0"/>
                 </StackPanel>
-            </WrapPanel>
-        </GroupBox>
+            </Border>
 
-        <!-- Dynamic Columns -->
-        <GroupBox Header="Chọn trường dữ liệu hiển thị" Grid.Row="1" Margin="0,0,0,10">
-            <WrapPanel Margin="5">
-                <CheckBox x:Name="chkCode" Content="Mã quân nhân" IsChecked="True" Margin="0,0,15,0"/>
-                <CheckBox x:Name="chkName" Content="Họ tên" IsChecked="True" Margin="0,0,15,0"/>
-                <CheckBox x:Name="chkRank" Content="Cấp bậc" IsChecked="True" Margin="0,0,15,0"/>
-                <CheckBox x:Name="chkUnit" Content="Đơn vị" IsChecked="True" Margin="0,0,15,0"/>
-                <CheckBox x:Name="chkPos" Content="Chức vụ" Margin="0,0,15,0"/>
-                <CheckBox x:Name="chkReward" Content="Hình thức khen thưởng" IsChecked="True" Margin="0,0,15,0"/>
-                <CheckBox x:Name="chkReason" Content="Lý do khen thưởng" IsChecked="True" Margin="0,0,15,0"/>
-                <CheckBox x:Name="chkDate" Content="Ngày quyết định" IsChecked="True" Margin="0,0,15,0"/>
-            </WrapPanel>
-        </GroupBox>
+            <Border Grid.Column="2" Background="White" CornerRadius="8" Padding="16">
+                <StackPanel>
+                    <TextBlock Text="Khen thưởng tháng này" Style="{StaticResource Text.Caption}" Foreground="{StaticResource Brush.Text.Muted}"/>
+                    <TextBlock Text="128" Style="{StaticResource Text.Heading.Medium}" Foreground="Green" Margin="0,4,0,0"/>
+                </StackPanel>
+            </Border>
 
-        <!-- Preview -->
-        <DataGrid x:Name="dgReport" Grid.Row="2" AutoGenerateColumns="True" IsReadOnly="True" Margin="0,0,0,10"/>
+            <Border Grid.Column="4" Background="White" CornerRadius="8" Padding="16">
+                <StackPanel>
+                    <TextBlock Text="Số đơn vị được khen thưởng" Style="{StaticResource Text.Caption}" Foreground="{StaticResource Brush.Text.Muted}"/>
+                    <TextBlock Text="42" Style="{StaticResource Text.Heading.Medium}" Foreground="{StaticResource Brush.Gold}" Margin="0,4,0,0"/>
+                </StackPanel>
+            </Border>
+        </Grid>
 
-        <!-- Actions -->
-        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Content="Xem báo cáo" Click="Generate_Click" Margin="0,0,10,0" Width="120"/>
-            <Button Content="Xuất Excel" Click="Export_Click" Background="Green" Foreground="White" Width="120"/>
-        </StackPanel>
+        <!-- Filters & DataGrid container -->
+        <Border Grid.Row="1" Grid.RowSpan="2" Background="White" CornerRadius="8" Padding="24">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Filters -->
+                <WrapPanel Grid.Row="0" Margin="0,0,0,16">
+                    <StackPanel Margin="0,0,24,12">
+                        <TextBlock Text="Đơn vị:" Style="{StaticResource Text.Caption}" Margin="0,0,0,4"/>
+                        <ComboBox x:Name="cboUnitFilter" Width="180" DisplayMemberPath="UnitName" SelectedValuePath="UnitID"/>
+                    </StackPanel>
+
+                    <StackPanel Margin="0,0,24,12">
+                        <TextBlock Text="Từ ngày:" Style="{StaticResource Text.Caption}" Margin="0,0,0,4"/>
+                        <DatePicker x:Name="dpFrom" Width="140"/>
+                    </StackPanel>
+
+                    <StackPanel Margin="0,0,24,12">
+                        <TextBlock Text="Đến ngày:" Style="{StaticResource Text.Caption}" Margin="0,0,0,4"/>
+                        <DatePicker x:Name="dpTo" Width="140"/>
+                    </StackPanel>
+
+                    <StackPanel Margin="0,0,24,12">
+                        <TextBlock Text="Loại khen thưởng:" Style="{StaticResource Text.Caption}" Margin="0,0,0,4"/>
+                        <ComboBox x:Name="cboRewardType" Width="180">
+                            <ComboBoxItem Content="Tất cả"/>
+                            <ComboBoxItem Content="Huân chương"/>
+                            <ComboBoxItem Content="Huy chương"/>
+                            <ComboBoxItem Content="Bằng khen"/>
+                            <ComboBoxItem Content="Giấy khen"/>
+                        </ComboBox>
+                    </StackPanel>
+
+                    <Button Content="Tạo báo cáo" Style="{StaticResource Button}" Click="Generate_Click" Margin="0,0,12,12" VerticalAlignment="Bottom"/>
+                    <Button Content="Xuất Excel" Style="{StaticResource Button}" Background="Green" Foreground="White" Click="Export_Click" Margin="0,0,0,12" VerticalAlignment="Bottom"/>
+                </WrapPanel>
+
+                <!-- Dynamic Columns -->
+                <Expander Grid.Row="1" Header="Chọn trường dữ liệu hiển thị" Margin="0,0,0,16">
+                    <WrapPanel Margin="8">
+                        <CheckBox x:Name="chkCode" Content="Mã quân nhân" IsChecked="True" Margin="0,0,15,8"/>
+                        <CheckBox x:Name="chkName" Content="Họ tên" IsChecked="True" Margin="0,0,15,8"/>
+                        <CheckBox x:Name="chkRank" Content="Cấp bậc" IsChecked="True" Margin="0,0,15,8"/>
+                        <CheckBox x:Name="chkUnit" Content="Đơn vị" IsChecked="True" Margin="0,0,15,8"/>
+                        <CheckBox x:Name="chkPos" Content="Chức vụ" Margin="0,0,15,8"/>
+                        <CheckBox x:Name="chkReward" Content="Hình thức khen thưởng" IsChecked="True" Margin="0,0,15,8"/>
+                        <CheckBox x:Name="chkReason" Content="Lý do khen thưởng" IsChecked="True" Margin="0,0,15,8"/>
+                        <CheckBox x:Name="chkDate" Content="Ngày quyết định" IsChecked="True" Margin="0,0,15,8"/>
+                    </WrapPanel>
+                </Expander>
+
+                <!-- Preview -->
+                <DataGrid x:Name="dgReport" Grid.Row="2" Style="{StaticResource DataGrid}" AutoGenerateColumns="True" IsReadOnly="True"/>
+            </Grid>
+        </Border>
     </Grid>
 </UserControl>
