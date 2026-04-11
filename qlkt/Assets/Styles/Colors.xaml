@@ -47,5 +47,6 @@
     <SolidColorBrush x:Key="Brush.Warning" Color="{StaticResource Color.Warning}"/>
     <SolidColorBrush x:Key="Brush.Danger" Color="{StaticResource Color.Danger}"/>
     <SolidColorBrush x:Key="Brush.Info" Color="{StaticResource Color.Info}"/>
-
+    <!-- add near other brushes in Colors.xaml -->
+    <SolidColorBrush x:Key="Brush.Text.Muted" Color="{StaticResource Color.Text.Muted}"/>
 </ResourceDictionary>
