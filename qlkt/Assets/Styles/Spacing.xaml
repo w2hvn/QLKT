@@ -1,12 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <!-- ================= BASE UNIT ================= -->
-    <!-- 4px system (chuẩn enterprise UI) -->
-
-    <!-- ================= SPACING VALUES ================= -->
     <Thickness x:Key="Spacing.None">0</Thickness>
-
     <Thickness x:Key="Spacing.XS">4</Thickness>
     <Thickness x:Key="Spacing.SM">8</Thickness>
     <Thickness x:Key="Spacing.MD">12</Thickness>
@@ -14,31 +9,14 @@
     <Thickness x:Key="Spacing.XL">24</Thickness>
     <Thickness x:Key="Spacing.XXL">32</Thickness>
 
-    <!-- ================= HORIZONTAL ================= -->
-    <Thickness x:Key="Spacing.Horizontal.SM">8,0</Thickness>
-    <Thickness x:Key="Spacing.Horizontal.MD">12,0</Thickness>
-    <Thickness x:Key="Spacing.Horizontal.LG">16,0</Thickness>
-
-    <!-- ================= VERTICAL ================= -->
-    <Thickness x:Key="Spacing.Vertical.SM">0,8</Thickness>
-    <Thickness x:Key="Spacing.Vertical.MD">0,12</Thickness>
-    <Thickness x:Key="Spacing.Vertical.LG">0,16</Thickness>
-
-    <!-- ================= PADDING ================= -->
     <Thickness x:Key="Padding.SM">8</Thickness>
     <Thickness x:Key="Padding.MD">12</Thickness>
     <Thickness x:Key="Padding.LG">16</Thickness>
     <Thickness x:Key="Padding.XL">20</Thickness>
 
-    <!-- ================= CARD ================= -->
-    <Thickness x:Key="Card.Padding">16</Thickness>
+    <Thickness x:Key="Card.Padding">24</Thickness>
     <Thickness x:Key="Card.Margin">8</Thickness>
 
-    <!-- ================= FORM ================= -->
-    <Thickness x:Key="Form.FieldSpacing">0,0,0,12</Thickness>
-    <Thickness x:Key="Form.SectionSpacing">0,0,0,20</Thickness>
-
-    <!-- ================= BUTTON ================= -->
-    <Thickness x:Key="Button.Padding">12,6</Thickness>
+    <Thickness x:Key="Button.Padding">16,8</Thickness>
 
 </ResourceDictionary>
