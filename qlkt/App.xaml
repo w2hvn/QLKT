@@ -4,6 +4,20 @@
              xmlns:local="clr-namespace:QLKT"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- Core Styles -->
+                <ResourceDictionary Source="Assets/Styles/Colors.xaml"/>
+                <ResourceDictionary Source="Assets/Styles/Typography.xaml"/>
+                <ResourceDictionary Source="Assets/Styles/Shadows.xaml"/>
+                <ResourceDictionary Source="Assets/Styles/Spacing.xaml"/>
+
+                <!-- Component Styles -->
+                <ResourceDictionary Source="Assets/Styles/Buttons.xaml"/>
+                <ResourceDictionary Source="Assets/Styles/Cards.xaml"/>
+                <ResourceDictionary Source="Assets/Styles/DataGrid.xaml"/>
+                <ResourceDictionary Source="Assets/Styles/Inputs.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

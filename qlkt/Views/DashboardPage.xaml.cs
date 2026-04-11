@@ -1,14 +1,14 @@
 using System;
 using System.Windows.Controls;
-using MilitaryRewardApp.Data;
+using QLKT.Data;
 
-namespace MilitaryRewardApp.Views
+namespace QLKT.Views
 {
-    public partial class DashboardPage : UserControl
+    public partial class DashboardView : UserControl
     {
         private readonly DatabaseContext _db;
 
-        public DashboardPage()
+        public DashboardView()
         {
             InitializeComponent();
             _db = new DatabaseContext();
@@ -21,11 +21,11 @@ namespace MilitaryRewardApp.Views
             {
                 var soldiers = await _db.ExecuteScalarAsync("SELECT COUNT(*) FROM Soldiers");
                 var rewards = await _db.ExecuteScalarAsync("SELECT COUNT(*) FROM Rewards");
-                var units = await _db.ExecuteScalarAsync("SELECT COUNT(*) FROM Units");
+                // var units = await _db.ExecuteScalarAsync("SELECT COUNT(*) FROM Units");
 
                 txtTotalSoldiers.Text = soldiers?.ToString() ?? "0";
                 txtTotalRewards.Text = rewards?.ToString() ?? "0";
-                txtTotalUnits.Text = units?.ToString() ?? "0";
+                // txtTotalUnits.Text = units?.ToString() ?? "0";
             }
             catch (Exception ex)
             {

@@ -1,13 +1,13 @@
-<Window x:Class="MilitaryRewardApp.Views.LoginWindow"
+<Window x:Class="QLKT.Views.LoginWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Đăng Nhập - Military Reward App" Height="350" Width="400"
         WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
-        Background="{StaticResource BackgroundBrush}">
+        Background="{StaticResource Brush.Background}">
     <Grid Margin="20">
         <StackPanel VerticalAlignment="Center">
             <TextBlock Text="ĐĂNG NHẬP HỆ THỐNG" FontSize="20" FontWeight="Bold" 
-                       HorizontalAlignment="Center" Foreground="{StaticResource PrimaryBrush}" Margin="0,0,0,20"/>
+                       HorizontalAlignment="Center" Foreground="{StaticResource Brush.Primary}" Margin="0,0,0,20"/>
             
             <TextBlock Text="Tên đăng nhập:" Margin="0,5"/>
             <TextBox x:Name="txtUsername" Text="admin"/>
@@ -17,7 +17,7 @@
             
             <TextBlock x:Name="lblError" Foreground="Red" Margin="0,5" Visibility="Collapsed"/>
             
-            <Button Content="Đăng Nhập" Style="{StaticResource PrimaryButton}" 
+            <Button Content="Đăng Nhập" Style="{StaticResource Button}" Tag="Primary"
                     Click="Login_Click" Margin="0,20,0,0"/>
         </StackPanel>
     </Grid>

@@ -1,9 +1,9 @@
 using System;
 using System.Data;
 using System.Windows;
-using MilitaryRewardApp.Data;
+using QLKT.Data;
 
-namespace MilitaryRewardApp.Views
+namespace QLKT.Views
 {
     public partial class LoginWindow : Window
     {

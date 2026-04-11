@@ -3,7 +3,7 @@ using System.Data;
 using System.Threading.Tasks;
 using MySqlConnector;
 
-namespace MilitaryRewardApp.Data
+namespace QLKT.Data
 {
     public class DatabaseContext
     {

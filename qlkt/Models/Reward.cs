@@ -1,6 +1,6 @@
 using System;
 
-namespace MilitaryRewardApp.Models
+namespace QLKT.Models
 {
     public class Reward
     {

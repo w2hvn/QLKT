@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Data;
 using System.Windows;
 using System.Windows.Controls;
-using MilitaryRewardApp.Data;
-using MilitaryRewardApp.Models;
+using QLKT.Data;
+using QLKT.Models;
 using MySqlConnector;
 
-namespace MilitaryRewardApp.Views
+namespace QLKT.Views
 {
     public partial class SoldierManagement : UserControl
     {

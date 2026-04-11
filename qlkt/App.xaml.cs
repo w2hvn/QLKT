@@ -9,6 +9,8 @@ namespace QLKT
     /// </summary>
     public partial class App : Application
     {
+        public static string CurrentUserRole { get; set; } = "Admin";
+        public static string CurrentUserName { get; set; } = "Administrator";
     }
 
 }
