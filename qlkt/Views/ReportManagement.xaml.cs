@@ -4,6 +4,9 @@ using System.Data;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using LiveChartsCore;
+using LiveChartsCore.SkiaSharpView;
+using LiveChartsCore.SkiaSharpView.WPF;
 using ClosedXML.Excel;
 using QLKT.Data;
 using MySqlConnector;
@@ -20,6 +23,22 @@ namespace QLKT.Views
             InitializeComponent();
             _db = new DatabaseContext();
             LoadUnits();
+            LoadSummary();
+        }
+
+        private async void LoadSummary()
+        {
+            try
+            {
+                var dtTotal = await _db.ExecuteQueryAsync("SELECT COUNT(*) FROM Proposals WHERE Status = 'Đã phê duyệt'");
+                var dtMonthly = await _db.ExecuteQueryAsync("SELECT COUNT(*) FROM Proposals WHERE Status = 'Đã phê duyệt' AND MONTH(DateProposed) = MONTH(CURRENT_DATE()) AND YEAR(DateProposed) = YEAR(CURRENT_DATE())");
+                var dtUnits = await _db.ExecuteQueryAsync("SELECT COUNT(DISTINCT UnitID) FROM Soldiers WHERE SoldierID IN (SELECT SoldierID FROM Proposals WHERE Status = 'Đã phê duyệt')");
+
+                txtTotalDecisions.Text = dtTotal.Rows[0][0].ToString();
+                txtMonthlyRewards.Text = dtMonthly.Rows[0][0].ToString();
+                txtTotalUnits.Text = dtUnits.Rows[0][0].ToString();
+            }
+            catch { }
         }
 
         private async void LoadUnits()
@@ -86,10 +105,74 @@ namespace QLKT.Views
 
                 _currentData = await _db.ExecuteQueryAsync(baseQuery);
                 dgReport.ItemsSource = _currentData.DefaultView;
+
+                UpdateAdvancedCharts();
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Lỗi tạo báo cáo: " + ex.Message);
+            }
+        }
+
+        private void UpdateAdvancedCharts()
+        {
+            if (_currentData == null) return;
+
+            // 1. Reward Distribution (Pie Chart)
+            if (chkReward.IsChecked == true)
+            {
+                var distribution = _currentData.AsEnumerable()
+                    .GroupBy(r => r.Field<string>("CategoryName"))
+                    .Select(g => new PieSeries<int> { Name = g.Key, Values = new[] { g.Count() } })
+                    .ToArray();
+
+                var pieChart = new PieChart { Series = distribution, Height = 150 };
+                chartDistribution.Content = pieChart;
+            }
+
+            // 2. Top Performing Units (Bar Chart)
+            if (chkUnit.IsChecked == true)
+            {
+                var unitData = _currentData.AsEnumerable()
+                    .GroupBy(r => r.Field<string>("UnitName"))
+                    .Select(g => new { Unit = g.Key, Count = g.Count() })
+                    .OrderByDescending(x => x.Count)
+                    .Take(5)
+                    .ToList();
+
+                var barChart = new CartesianChart
+                {
+                    Series = new ISeries[] {
+                        new ColumnSeries<int> { Values = unitData.Select(x => x.Count).ToArray() }
+                    },
+                    XAxes = new[] {
+                        new Axis { Labels = unitData.Select(x => x.Unit).ToArray() }
+                    },
+                    Height = 150
+                };
+                chartUnits.Content = barChart;
+            }
+
+            // 3. Trends (Line Chart) - Simple count by date
+            if (chkDate.IsChecked == true)
+            {
+                var trendData = _currentData.AsEnumerable()
+                    .GroupBy(r => Convert.ToDateTime(r.Field<object>("DateProposed")).ToString("MM/yyyy"))
+                    .Select(g => new { Month = g.Key, Count = g.Count() })
+                    .OrderBy(x => x.Month)
+                    .ToList();
+
+                var lineChart = new CartesianChart
+                {
+                    Series = new ISeries[] {
+                        new LineSeries<int> { Values = trendData.Select(x => x.Count).ToArray() }
+                    },
+                    XAxes = new[] {
+                        new Axis { Labels = trendData.Select(x => x.Month).ToArray() }
+                    },
+                    Height = 150
+                };
+                chartTrend.Content = lineChart;
             }
         }
 

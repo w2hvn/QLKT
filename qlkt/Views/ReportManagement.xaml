@@ -26,27 +26,30 @@
             <Border Grid.Column="0" Background="White" CornerRadius="8" Padding="16">
                 <StackPanel>
                     <TextBlock Text="Tổng số quyết định" Style="{StaticResource Text.Caption}" Foreground="{StaticResource Brush.Text.Muted}"/>
-                    <TextBlock Text="1,245" Style="{StaticResource Text.Heading.Medium}" Foreground="{StaticResource Brush.Primary}" Margin="0,4,0,0"/>
+                    <TextBlock x:Name="txtTotalDecisions" Text="0" Style="{StaticResource Text.Heading.Medium}" Foreground="{StaticResource Brush.Primary}" Margin="0,4,0,0"/>
                 </StackPanel>
             </Border>
 
             <Border Grid.Column="2" Background="White" CornerRadius="8" Padding="16">
                 <StackPanel>
                     <TextBlock Text="Khen thưởng tháng này" Style="{StaticResource Text.Caption}" Foreground="{StaticResource Brush.Text.Muted}"/>
-                    <TextBlock Text="128" Style="{StaticResource Text.Heading.Medium}" Foreground="Green" Margin="0,4,0,0"/>
+                    <TextBlock x:Name="txtMonthlyRewards" Text="0" Style="{StaticResource Text.Heading.Medium}" Foreground="Green" Margin="0,4,0,0"/>
                 </StackPanel>
             </Border>
 
             <Border Grid.Column="4" Background="White" CornerRadius="8" Padding="16">
                 <StackPanel>
                     <TextBlock Text="Số đơn vị được khen thưởng" Style="{StaticResource Text.Caption}" Foreground="{StaticResource Brush.Text.Muted}"/>
-                    <TextBlock Text="42" Style="{StaticResource Text.Heading.Medium}" Foreground="{StaticResource Brush.Gold}" Margin="0,4,0,0"/>
+                    <TextBlock x:Name="txtTotalUnits" Text="0" Style="{StaticResource Text.Heading.Medium}" Foreground="{StaticResource Brush.Gold}" Margin="0,4,0,0"/>
                 </StackPanel>
             </Border>
         </Grid>
 
         <!-- Filters & DataGrid container -->
         <Border Grid.Row="1" Grid.RowSpan="2" Background="White" CornerRadius="8" Padding="24">
+            <Border.Resources>
+                <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+            </Border.Resources>
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -83,7 +86,8 @@
                     </StackPanel>
 
                     <Button Content="Tạo báo cáo" Style="{StaticResource Button}" Click="Generate_Click" Margin="0,0,12,12" VerticalAlignment="Bottom"/>
-                    <Button Content="Xuất Excel" Style="{StaticResource Button}" Background="Green" Foreground="White" Click="Export_Click" Margin="0,0,0,12" VerticalAlignment="Bottom"/>
+                    <Button Content="Xuất Excel" Style="{StaticResource Button}" Background="Green" Foreground="White" Click="Export_Click" Margin="0,0,12,12" VerticalAlignment="Bottom"/>
+                    <ToggleButton x:Name="btnToggleCharts" Content="Hiển thị Biểu đồ" Style="{StaticResource Button}" Tag="Secondary" Margin="0,0,0,12" VerticalAlignment="Bottom"/>
                 </WrapPanel>
 
                 <!-- Dynamic Columns -->
@@ -100,8 +104,46 @@
                     </WrapPanel>
                 </Expander>
 
-                <!-- Preview -->
-                <DataGrid x:Name="dgReport" Grid.Row="2" Style="{StaticResource DataGrid}" AutoGenerateColumns="True" IsReadOnly="True"/>
+                <!-- Preview & Charts -->
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <DataGrid x:Name="dgReport" Style="{StaticResource DataGrid}" AutoGenerateColumns="True" IsReadOnly="True"/>
+
+                    <!-- Advanced Charts Panel -->
+                    <Border Grid.Column="1" Width="400" Margin="16,0,0,0" Background="#F8F9FA" CornerRadius="8" Padding="16"
+                            Visibility="{Binding IsChecked, ElementName=btnToggleCharts, Converter={StaticResource BoolToVis}}">
+                        <ScrollViewer>
+                            <StackPanel>
+                                <TextBlock Text="PHÂN TÍCH DỮ LIỆU" FontWeight="Bold" Margin="0,0,0,16"/>
+
+                                <Border Background="White" CornerRadius="4" Padding="8" Margin="0,0,0,16">
+                                    <StackPanel>
+                                        <TextBlock Text="Xu hướng Đề xuất vs Phê duyệt" FontSize="12" Margin="0,0,0,8"/>
+                                        <ContentControl x:Name="chartTrend" Height="150"/>
+                                    </StackPanel>
+                                </Border>
+
+                                <Border Background="White" CornerRadius="4" Padding="8" Margin="0,0,0,16">
+                                    <StackPanel>
+                                        <TextBlock Text="Phân bổ theo loại khen thưởng" FontSize="12" Margin="0,0,0,8"/>
+                                        <ContentControl x:Name="chartDistribution" Height="150"/>
+                                    </StackPanel>
+                                </Border>
+
+                                <Border Background="White" CornerRadius="4" Padding="8">
+                                    <StackPanel>
+                                        <TextBlock Text="Top đơn vị tiêu biểu" FontSize="12" Margin="0,0,0,8"/>
+                                        <ContentControl x:Name="chartUnits" Height="150"/>
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Border>
+                </Grid>
             </Grid>
         </Border>
     </Grid>
