@@ -13,9 +13,15 @@
             <TextBox x:Name="txtUsername" Text="admin"/>
             
             <TextBlock Text="Mật khẩu:" Margin="0,5"/>
-            <PasswordBox x:Name="txtPassword"/>
+            <Grid>
+                <PasswordBox x:Name="txtPassword"/>
+                <TextBox x:Name="txtPasswordVisible" Visibility="Collapsed"/>
+                <ToggleButton x:Name="btnTogglePassword" HorizontalAlignment="Right" Background="Transparent" BorderThickness="0" Cursor="Hand" Click="BtnTogglePassword_Click">
+                    <TextBlock x:Name="txtEyeIcon" Text="👁️" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                </ToggleButton>
+            </Grid>
             
-            <CheckBox x:Name="chkRememberMe" Content="Duy trì đăng nhập" Margin="0,10"/>
+            <CheckBox x:Name="chkRememberMe" Content="Duy trì đăng nhập" Margin="0,15"/>
 
             <TextBlock x:Name="lblError" Foreground="Red" Margin="0,5" Visibility="Collapsed"/>
 

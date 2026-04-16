@@ -66,7 +66,13 @@
                     <TextBox x:Name="txtUsername" Margin="0,0,0,15" Padding="5"/>
 
                     <TextBlock Text="Mật khẩu" Style="{StaticResource Text.Caption}" Margin="0,0,0,5"/>
-                    <PasswordBox x:Name="txtPassword" Margin="0,0,0,15" Padding="5"/>
+                    <Grid Margin="0,0,0,15">
+                        <PasswordBox x:Name="txtPassword" Padding="5"/>
+                        <TextBox x:Name="txtPasswordVisible" Visibility="Collapsed" Padding="5"/>
+                        <ToggleButton x:Name="btnTogglePassword" HorizontalAlignment="Right" Background="Transparent" BorderThickness="0" Cursor="Hand" Click="BtnTogglePassword_Click">
+                            <TextBlock x:Name="txtEyeIcon" Text="👁️" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                        </ToggleButton>
+                    </Grid>
 
                     <TextBlock Text="Vai trò" Style="{StaticResource Text.Caption}" Margin="0,0,0,5"/>
                     <ComboBox x:Name="cboRole" Margin="0,0,0,15" Padding="5">

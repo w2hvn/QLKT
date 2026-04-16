@@ -48,6 +48,24 @@ namespace QLKT.Views
             }
         }
 
+        private void BtnTogglePassword_Click(object sender, RoutedEventArgs e)
+        {
+            if (btnTogglePassword.IsChecked == true)
+            {
+                txtPasswordVisible.Text = txtPassword.Password;
+                txtPasswordVisible.Visibility = Visibility.Visible;
+                txtPassword.Visibility = Visibility.Collapsed;
+                txtEyeIcon.Text = "🙈";
+            }
+            else
+            {
+                txtPassword.Password = txtPasswordVisible.Text;
+                txtPassword.Visibility = Visibility.Visible;
+                txtPasswordVisible.Visibility = Visibility.Collapsed;
+                txtEyeIcon.Text = "👁️";
+            }
+        }
+
         private void dgUsers_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (dgUsers.SelectedItem is UserItem user)
@@ -55,7 +73,9 @@ namespace QLKT.Views
                 _selectedUserId = int.Parse(user.ID);
                 txtFullName.Text = user.FullName;
                 txtUsername.Text = user.Username;
-                txtPassword.Password = ""; // For security, don't show password
+
+                txtPassword.Password = "";
+                txtPasswordVisible.Text = "";
 
                 cboRole.Text = user.Role;
                 cboStatus.Text = user.Status;
@@ -75,6 +95,7 @@ namespace QLKT.Views
 
             try
             {
+                string password = (btnTogglePassword.IsChecked == true) ? txtPasswordVisible.Text : txtPassword.Password;
                 string role = (cboRole.SelectedItem as ComboBoxItem)?.Content.ToString() ?? "Người dùng";
                 string status = (cboStatus.SelectedItem as ComboBoxItem)?.Content.ToString() ?? "Hoạt động";
 
@@ -85,7 +106,7 @@ namespace QLKT.Views
                     var parameters = new MySqlConnector.MySqlParameter[]
                     {
                         new MySqlConnector.MySqlParameter("@Username", txtUsername.Text.Trim()),
-                        new MySqlConnector.MySqlParameter("@Password", txtPassword.Password), // In production, hash this!
+                        new MySqlConnector.MySqlParameter("@Password", password),
                         new MySqlConnector.MySqlParameter("@FullName", txtFullName.Text.Trim()),
                         new MySqlConnector.MySqlParameter("@Role", role),
                         new MySqlConnector.MySqlParameter("@Status", status)
@@ -106,10 +127,10 @@ namespace QLKT.Views
                         new MySqlConnector.MySqlParameter("@Id", _selectedUserId)
                     };
 
-                    if (!string.IsNullOrEmpty(txtPassword.Password))
+                    if (!string.IsNullOrEmpty(password))
                     {
                         query += ", Password=@Password";
-                        parametersList.Add(new MySqlConnector.MySqlParameter("@Password", txtPassword.Password));
+                        parametersList.Add(new MySqlConnector.MySqlParameter("@Password", password));
                     }
 
                     query += " WHERE UserID=@Id";

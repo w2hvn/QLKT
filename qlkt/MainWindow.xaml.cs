@@ -81,6 +81,7 @@ namespace QLKT
             {
                 btnNavApproval.Visibility = Visibility.Collapsed;
                 btnNavUsers.Visibility = Visibility.Collapsed;
+                btnNavRewardCategory.Visibility = Visibility.Collapsed;
             }
         }
 
