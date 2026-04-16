@@ -127,9 +127,8 @@
         <Grid Grid.Row="1" Margin="0,0,0,20">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="200"/>
-                <ColumnDefinition Width="200"/>
-                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="220"/>
+                <ColumnDefinition Width="220"/>
             </Grid.ColumnDefinitions>
 
             <!-- Search box -->
@@ -140,35 +139,22 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Text="🔍" VerticalAlignment="Center" Margin="10,0" Foreground="#C6A87C"/>
-                    <TextBox Grid.Column="1" Text="Tìm kiếm chiến sĩ..." VerticalAlignment="Center" Foreground="#999" BorderThickness="0" Background="Transparent"/>
+                    <TextBox x:Name="txtSearch" Grid.Column="1" VerticalContentAlignment="Center" BorderThickness="0" Background="Transparent" TextChanged="Filter_Changed"/>
+                    <TextBlock x:Name="txtSearchPlaceholder" Grid.Column="1" Text="Tìm kiếm chiến sĩ..." VerticalAlignment="Center" Foreground="#999" IsHitTestVisible="False" Margin="5,0,0,0"/>
                 </Grid>
             </Border>
 
             <!-- Comboboxes -->
-            <ComboBox Grid.Column="1" SelectedIndex="0" Margin="0,0,16,0">
-                <ComboBoxItem Content="Quân hàm"/>
-                <ComboBoxItem Content="Trung tá"/>
-                <ComboBoxItem Content="Đại úy"/>
-            </ComboBox>
+            <ComboBox x:Name="cboUnitFilter" Grid.Column="1" Margin="0,0,16,0" DisplayMemberPath="UnitName" SelectedValuePath="UnitID" SelectionChanged="Filter_Changed"/>
 
-            <ComboBox Grid.Column="2" SelectedIndex="0" Margin="0,0,16,0">
-                <ComboBoxItem Content="Đơn vị"/>
-                <ComboBoxItem Content="Sư đoàn 301"/>
-                <ComboBoxItem Content="Quân đoàn 1"/>
-            </ComboBox>
-
-            <ComboBox Grid.Column="3" SelectedIndex="0">
-                <ComboBoxItem Content="Trạng thái"/>
-                <ComboBoxItem Content="Đã phê duyệt"/>
-                <ComboBoxItem Content="Đang chờ"/>
-            </ComboBox>
+            <ComboBox x:Name="cboCategoryFilter" Grid.Column="2" DisplayMemberPath="CategoryName" SelectedValuePath="CategoryID" SelectionChanged="Filter_Changed"/>
         </Grid>
 
         <!-- DATA GRID -->
         <Border Grid.Row="2" CornerRadius="8" BorderBrush="#E0E0E0" BorderThickness="1" Background="White" ClipToBounds="True">
             <DataGrid x:Name="dgRewardList" BorderThickness="0" MouseDoubleClick="dgRewardList_MouseDoubleClick">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="" Binding="{Binding STT}" Width="60">
+                    <DataGridTextColumn Header="STT" Binding="{Binding STT}" Width="60">
                         <DataGridTextColumn.HeaderStyle>
                             <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource {x:Type DataGridColumnHeader}}">
                                 <Setter Property="HorizontalContentAlignment" Value="Center"/>
@@ -180,33 +166,22 @@
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
-                    <DataGridTextColumn Header="Tên Chiến Sĩ" Binding="{Binding Name}" Width="250" FontWeight="SemiBold"/>
-                    <DataGridTextColumn Header="Quân Hàm" Binding="{Binding Rank}" Width="150"/>
-                    <DataGridTextColumn Header="Đơn Vị" Binding="{Binding Unit}" Width="*"/>
-                    <DataGridTemplateColumn Header="Trạng Thái Khen Thưởng" Width="200">
-                        <DataGridTemplateColumn.HeaderStyle>
-                            <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource {x:Type DataGridColumnHeader}}">
-                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                            </Style>
-                        </DataGridTemplateColumn.HeaderStyle>
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Border Background="{Binding StatusBackground}" CornerRadius="12" Padding="15,4" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                    <TextBlock Text="{Binding Status}" Foreground="{Binding StatusForeground}" FontSize="12" FontWeight="SemiBold"/>
-                                </Border>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="Tên Chiến Sĩ" Binding="{Binding Name}" Width="200" FontWeight="SemiBold"/>
+                    <DataGridTextColumn Header="Quân Hàm" Binding="{Binding Rank}" Width="120"/>
+                    <DataGridTextColumn Header="Chức Vụ" Binding="{Binding Position}" Width="150"/>
+                    <DataGridTextColumn Header="Đơn Vị" Binding="{Binding Unit}" Width="180"/>
+                    <DataGridTextColumn Header="Danh Hiệu Đạt Được" Binding="{Binding CategoryName}" Width="*"/>
+                    <DataGridTextColumn Header="Ngày Quyết Định" Binding="{Binding Date}" Width="130"/>
                 </DataGrid.Columns>
             </DataGrid>
         </Border>
 
         <!-- PAGINATION -->
         <Grid Grid.Row="3" Margin="0,20,0,0">
-            <TextBlock Text="Hiển thị 1-10 trên tổng số 18,745 kết quả" VerticalAlignment="Center" Foreground="#666666"/>
+            <TextBlock x:Name="txtPaginationSummary" Text="Hiển thị 0 kết quả" VerticalAlignment="Center" Foreground="#666666"/>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="Quay lại" Background="White" BorderBrush="#E0E0E0" Padding="15,8" Margin="0,0,8,0">
+                <Button x:Name="btnPrevPage" Content="Quay lại" Background="White" BorderBrush="#E0E0E0" Padding="15,8" Margin="0,0,8,0" Click="BtnPrevPage_Click">
                     <Button.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="4"/>
@@ -214,41 +189,9 @@
                     </Button.Resources>
                 </Button>
 
-                <Button Content="1" Background="#001529" Foreground="White" BorderBrush="Transparent" Padding="12,8" Margin="0,0,8,0">
-                    <Button.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="4"/>
-                        </Style>
-                    </Button.Resources>
-                </Button>
+                <StackPanel x:Name="pnlPageNumbers" Orientation="Horizontal"/>
 
-                <Button Content="2" Background="White" BorderBrush="#E0E0E0" Padding="12,8" Margin="0,0,8,0">
-                    <Button.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="4"/>
-                        </Style>
-                    </Button.Resources>
-                </Button>
-
-                <Button Content="3" Background="White" BorderBrush="#E0E0E0" Padding="12,8" Margin="0,0,8,0">
-                    <Button.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="4"/>
-                        </Style>
-                    </Button.Resources>
-                </Button>
-
-                <TextBlock Text="..." VerticalAlignment="Center" Margin="0,0,8,0" Foreground="#666666"/>
-
-                <Button Content="874" Background="White" BorderBrush="#E0E0E0" Padding="12,8" Margin="0,0,8,0">
-                    <Button.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="4"/>
-                        </Style>
-                    </Button.Resources>
-                </Button>
-
-                <Button Content="Tiếp theo" Background="#001529" Foreground="White" BorderBrush="Transparent" Padding="15,8">
+                <Button x:Name="btnNextPage" Content="Tiếp theo" Background="#001529" Foreground="White" BorderBrush="Transparent" Padding="15,8" Click="BtnNextPage_Click">
                     <Button.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="4"/>

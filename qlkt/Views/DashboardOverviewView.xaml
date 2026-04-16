@@ -7,6 +7,30 @@
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <Grid Margin="0,0,0,20">
             <StackPanel>
+                <!-- Filters -->
+                <Border Background="White" CornerRadius="8" Padding="16" Margin="0,0,0,20" BorderBrush="#E8E8E8" BorderThickness="1">
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Margin="0,0,24,0">
+                            <TextBlock Text="Năm:" Style="{StaticResource Text.Caption}" Margin="0,0,0,4"/>
+                            <ComboBox x:Name="cboYear" Width="120" SelectionChanged="Filter_Changed">
+                                <ComboBoxItem Content="2023" IsSelected="True"/>
+                                <ComboBoxItem Content="2022"/>
+                                <ComboBoxItem Content="2021"/>
+                            </ComboBox>
+                        </StackPanel>
+                        <StackPanel Margin="0,0,24,0">
+                            <TextBlock Text="Đơn vị:" Style="{StaticResource Text.Caption}" Margin="0,0,0,4"/>
+                            <ComboBox x:Name="cboUnit" Width="200" SelectionChanged="Filter_Changed">
+                                <ComboBoxItem Content="Tất cả đơn vị" IsSelected="True"/>
+                                <ComboBoxItem Content="Sư đoàn 301"/>
+                                <ComboBoxItem Content="Sư đoàn 324"/>
+                                <ComboBoxItem Content="Quân đoàn 1"/>
+                            </ComboBox>
+                        </StackPanel>
+                        <Button Content="Làm mới dữ liệu" Style="{StaticResource Button}" VerticalAlignment="Bottom" Height="36" Click="BtnRefresh_Click"/>
+                    </StackPanel>
+                </Border>
+
                 <!-- KPI Cards -->
                 <Grid Margin="0,0,0,20">
                     <Grid.ColumnDefinitions>
@@ -27,7 +51,7 @@
                             </Border>
                             <StackPanel Grid.Column="1" VerticalAlignment="Center">
                                 <TextBlock Text="TỔNG SỐ CHIẾN SĨ ĐƯỢC&#x0a;KHEN THƯỞNG" FontWeight="Bold" Foreground="#333333" FontSize="12"/>
-                                <TextBlock Text="18,745" FontWeight="Bold" FontSize="28" Foreground="#001529" Margin="0,5,0,0"/>
+                                <TextBlock x:Name="txtTotalRewards" Text="0" FontWeight="Bold" FontSize="28" Foreground="#001529" Margin="0,5,0,0"/>
                                 <TextBlock Text="+2.1% so với tháng trước" Foreground="#52C41A" FontSize="12"/>
                             </StackPanel>
                         </Grid>
@@ -45,7 +69,7 @@
                             </Border>
                             <StackPanel Grid.Column="1" VerticalAlignment="Center">
                                 <TextBlock Text="PHÊ DUYỆT ĐANG CHỜ" FontWeight="Bold" Foreground="#333333" FontSize="12"/>
-                                <TextBlock Text="143" FontWeight="Bold" FontSize="28" Foreground="#001529" Margin="0,5,0,0"/>
+                                <TextBlock x:Name="txtPendingApprovals" Text="0" FontWeight="Bold" FontSize="28" Foreground="#001529" Margin="0,5,0,0"/>
                                 <TextBlock Text="Đang chờ xử lý" Foreground="#666666" FontSize="12"/>
                             </StackPanel>
                         </Grid>
@@ -63,7 +87,7 @@
                             </Border>
                             <StackPanel Grid.Column="1" VerticalAlignment="Center">
                                 <TextBlock Text="DANH MỤC KHEN THƯỞNG" FontWeight="Bold" Foreground="#333333" FontSize="12"/>
-                                <TextBlock Text="45" FontWeight="Bold" FontSize="28" Foreground="#001529" Margin="0,5,0,0"/>
+                                <TextBlock x:Name="txtTotalCategories" Text="0" FontWeight="Bold" FontSize="28" Foreground="#001529" Margin="0,5,0,0"/>
                                 <TextBlock Text="Huân chương, Huy chương, v.v." Foreground="#666666" FontSize="12"/>
                             </StackPanel>
                         </Grid>

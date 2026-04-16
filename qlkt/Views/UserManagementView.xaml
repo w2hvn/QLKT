@@ -34,27 +34,71 @@
             </Grid>
         </Border>
 
-        <!-- Data Grid -->
-        <Border Grid.Row="2" Background="White" CornerRadius="8" Padding="16">
-            <DataGrid x:Name="dgUsers" Style="{StaticResource DataGrid}" AutoGenerateColumns="False" IsReadOnly="True">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Mã NV" Binding="{Binding ID}" Width="80"/>
-                    <DataGridTextColumn Header="Họ tên" Binding="{Binding FullName}" Width="*"/>
-                    <DataGridTextColumn Header="Tên đăng nhập" Binding="{Binding Username}" Width="150"/>
-                    <DataGridTextColumn Header="Vai trò" Binding="{Binding Role}" Width="150"/>
-                    <DataGridTextColumn Header="Trạng thái" Binding="{Binding Status}" Width="100"/>
-                    <DataGridTemplateColumn Header="Thao tác" Width="100">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="✏️" Margin="0,0,10,0" Cursor="Hand" ToolTip="Sửa"/>
-                                    <TextBlock Text="🗑️" Cursor="Hand" ToolTip="Xóa" Foreground="Red"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>
-        </Border>
+        <!-- Content Area -->
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="350"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Data Grid -->
+            <Border Grid.Column="0" Background="White" CornerRadius="8" Padding="16" Margin="0,0,16,0">
+                <DataGrid x:Name="dgUsers" Style="{StaticResource DataGrid}" AutoGenerateColumns="False" IsReadOnly="True" SelectionChanged="dgUsers_SelectionChanged">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID" Binding="{Binding ID}" Width="50"/>
+                        <DataGridTextColumn Header="Họ tên" Binding="{Binding FullName}" Width="*"/>
+                        <DataGridTextColumn Header="Tên đăng nhập" Binding="{Binding Username}" Width="120"/>
+                        <DataGridTextColumn Header="Vai trò" Binding="{Binding Role}" Width="100"/>
+                        <DataGridTextColumn Header="Trạng thái" Binding="{Binding Status}" Width="100"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Border>
+
+            <!-- Input Form -->
+            <Border Grid.Column="1" Background="White" CornerRadius="8" Padding="20">
+                <StackPanel>
+                    <TextBlock x:Name="txtFormTitle" Text="THÊM NGƯỜI DÙNG MỚI" FontWeight="Bold" Margin="0,0,0,20"/>
+
+                    <TextBlock Text="Họ tên" Style="{StaticResource Text.Caption}" Margin="0,0,0,5"/>
+                    <TextBox x:Name="txtFullName" Margin="0,0,0,15" Padding="5"/>
+
+                    <TextBlock Text="Tên đăng nhập" Style="{StaticResource Text.Caption}" Margin="0,0,0,5"/>
+                    <TextBox x:Name="txtUsername" Margin="0,0,0,15" Padding="5"/>
+
+                    <TextBlock Text="Mật khẩu" Style="{StaticResource Text.Caption}" Margin="0,0,0,5"/>
+                    <Grid Margin="0,0,0,15">
+                        <PasswordBox x:Name="txtPassword" Padding="5"/>
+                        <TextBox x:Name="txtPasswordVisible" Visibility="Collapsed" Padding="5"/>
+                        <ToggleButton x:Name="btnTogglePassword" HorizontalAlignment="Right" Background="Transparent" BorderThickness="0" Cursor="Hand" Click="BtnTogglePassword_Click">
+                            <TextBlock x:Name="txtEyeIcon" Text="👁️" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                        </ToggleButton>
+                    </Grid>
+
+                    <TextBlock Text="Vai trò" Style="{StaticResource Text.Caption}" Margin="0,0,0,5"/>
+                    <ComboBox x:Name="cboRole" Margin="0,0,0,15" Padding="5">
+                        <ComboBoxItem Content="Quản trị viên"/>
+                        <ComboBoxItem Content="Người dùng"/>
+                    </ComboBox>
+
+                    <TextBlock Text="Trạng thái" Style="{StaticResource Text.Caption}" Margin="0,0,0,5"/>
+                    <ComboBox x:Name="cboStatus" Margin="0,0,0,30" Padding="5">
+                        <ComboBoxItem Content="Hoạt động"/>
+                        <ComboBoxItem Content="Bị khóa"/>
+                    </ComboBox>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Horizontal">
+                            <Button Content="Lưu" Style="{StaticResource Button}" Tag="Primary" Width="80" Margin="0,0,10,0" Click="BtnSave_Click"/>
+                            <Button Content="Hủy" Style="{StaticResource Button}" Width="80" Click="BtnCancel_Click"/>
+                        </StackPanel>
+                        <Button x:Name="btnDelete" Grid.Column="1" Content="Xóa" Style="{StaticResource Button}" Tag="Danger" Width="80" Visibility="Collapsed" Click="BtnDelete_Click"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </Grid>
     </Grid>
 </UserControl>

@@ -12,16 +12,35 @@
                 <TextBlock Text="TẠO ĐỀ XUẤT KHEN THƯỞNG" Style="{StaticResource Text.Heading.Medium}" Margin="0,0,0,24"/>
 
                 <!-- Search -->
-                <Grid Margin="0,0,0,16">
+                <Grid Margin="0,0,0,16" Panel.ZIndex="100">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <TextBlock Text="Chiến sĩ được đề xuất (Mã hoặc Tên)" Style="{StaticResource Text.Caption}" Margin="0,0,0,8"/>
                     <Grid Grid.Row="1">
-                        <TextBox x:Name="txtSearchSoldier" Padding="30,8,8,8" Height="36" TextChanged="txtSearchSoldier_TextChanged"/>
+                        <TextBox x:Name="txtSearchSoldier" Padding="30,8,8,8" Height="36" TextChanged="txtSearchSoldier_TextChanged" LostFocus="txtSearchSoldier_LostFocus"/>
                         <TextBlock Text="🔍" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0" Foreground="{StaticResource Brush.Text.Muted}"/>
                         <TextBlock x:Name="lblSearchHint" Text="Tìm kiếm bằng tên hoặc mã..." VerticalAlignment="Center" HorizontalAlignment="Left" Margin="32,0" IsHitTestVisible="False" Foreground="{StaticResource Brush.Text.Muted}"/>
+
+                        <!-- Search Results Popup -->
+                        <Popup x:Name="popResults" IsOpen="False" StaysOpen="False" PlacementTarget="{Binding ElementName=txtSearchSoldier}" Placement="Bottom" Width="{Binding ElementName=txtSearchSoldier, Path=ActualWidth}">
+                            <Border Background="White" BorderBrush="#E0E0E0" BorderThickness="1" MaxHeight="250">
+                                <ListBox x:Name="lstSoldierResults" BorderThickness="0" SelectionChanged="lstSoldierResults_SelectionChanged">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Margin="5">
+                                                <TextBlock Text="{Binding FullName}" FontWeight="Bold"/>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="{Binding SoldierCode}" FontSize="11" Foreground="#666" Margin="0,0,10,0"/>
+                                                    <TextBlock Text="{Binding UnitName}" FontSize="11" Foreground="#666"/>
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </Border>
+                        </Popup>
                     </Grid>
                 </Grid>
 

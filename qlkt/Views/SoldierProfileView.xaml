@@ -4,14 +4,70 @@
              Background="Transparent">
 
     <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <Grid Margin="0,0,0,20">
+        <Grid Margin="20">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/> <!-- Search & Filter -->
+                <RowDefinition Height="Auto"/> <!-- Cards -->
+                <RowDefinition Height="*"/>    <!-- Timeline -->
             </Grid.RowDefinitions>
 
+            <!-- SEARCH & FILTER SECTION -->
+            <Border Grid.Row="0" Background="White" CornerRadius="8" Padding="15" Margin="0,0,0,20" BorderBrush="#E8E8E8" BorderThickness="1">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Margin="0,0,15,0">
+                        <TextBlock Text="Tìm kiếm chiến sĩ" Style="{StaticResource Text.Caption}" Margin="0,0,0,5"/>
+                        <Grid>
+                            <TextBox x:Name="txtSearch" Height="36" VerticalContentAlignment="Center" Padding="30,0,10,0" TextChanged="txtSearch_TextChanged"/>
+                            <TextBlock Text="🔍" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0" Foreground="#999"/>
+                            <TextBlock x:Name="txtSearchHint" Text="Nhập tên hoặc mã SQ..." VerticalAlignment="Center" HorizontalAlignment="Left" Margin="32,0" Foreground="#999" IsHitTestVisible="False"/>
+
+                            <!-- Results Popup -->
+                            <Popup x:Name="popResults" IsOpen="False" StaysOpen="False" Placement="Bottom" PlacementTarget="{Binding ElementName=txtSearch}" Width="{Binding ElementName=txtSearch, Path=ActualWidth}">
+                                <Border Background="White" BorderBrush="#E0E0E0" BorderThickness="1" MaxHeight="250">
+                                    <ListBox x:Name="lstResults" BorderThickness="0" SelectionChanged="lstResults_SelectionChanged">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Margin="8">
+                                                    <TextBlock Text="{Binding FullName}" FontWeight="Bold"/>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding SoldierCode}" FontSize="11" Foreground="#666" Margin="0,0,10,0"/>
+                                                        <TextBlock Text="{Binding UnitName}" FontSize="11" Foreground="#666"/>
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+                                </Border>
+                            </Popup>
+                        </Grid>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" Margin="0,0,15,0">
+                        <TextBlock Text="Đơn vị" Style="{StaticResource Text.Caption}" Margin="0,0,0,5"/>
+                        <ComboBox x:Name="cboUnit" Height="36" DisplayMemberPath="UnitName" SelectedValuePath="UnitID" SelectionChanged="Filter_Changed"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2" Margin="0,0,15,0">
+                        <TextBlock Text="Chức vụ" Style="{StaticResource Text.Caption}" Margin="0,0,0,5"/>
+                        <ComboBox x:Name="cboPosition" Height="36" SelectionChanged="Filter_Changed"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="3">
+                        <TextBlock Text="Quân hàm" Style="{StaticResource Text.Caption}" Margin="0,0,0,5"/>
+                        <ComboBox x:Name="cboRank" Height="36" SelectionChanged="Filter_Changed"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
             <!-- Top Cards Section -->
-            <Grid Grid.Row="0">
+            <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="250"/>
                     <ColumnDefinition Width="*"/>
@@ -35,11 +91,10 @@
                                 </Ellipse.Fill>
                             </Ellipse>
                         </Border>
-                        <!-- Fallback Avatar text inside ellipse if needed -->
                         <TextBlock Text="👨‍✈️" FontSize="50" HorizontalAlignment="Center" Margin="0,-115,0,50" Foreground="Gray" RenderTransformOrigin="0.5,0.5"/>
 
-                        <TextBlock x:Name="txtFullName" Text="Đặng Văn Tú" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,10,0,5"/>
-                        <TextBlock x:Name="txtRank" Text="Trung tá" FontSize="16" Foreground="#666666" HorizontalAlignment="Center"/>
+                        <TextBlock x:Name="txtFullName" Text="Chọn chiến sĩ..." FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,10,0,5"/>
+                        <TextBlock x:Name="txtRankDisplay" Text="---" FontSize="16" Foreground="#666666" HorizontalAlignment="Center"/>
                     </StackPanel>
                 </Border>
 
@@ -52,8 +107,8 @@
                                 <ColumnDefinition Width="80"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="ID" Foreground="#666666"/>
-                            <TextBlock x:Name="txtSoldierCode" Grid.Column="1" Text="SQ001" HorizontalAlignment="Right"/>
+                            <TextBlock Text="Mã SQ" Foreground="#666666"/>
+                            <TextBlock x:Name="txtSoldierCode" Grid.Column="1" Text="---" HorizontalAlignment="Right"/>
                         </Grid>
                         <Grid Margin="0,0,0,12">
                             <Grid.ColumnDefinitions>
@@ -61,7 +116,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="Dân tộc" Foreground="#666666"/>
-                            <TextBlock x:Name="txtEthnicity" Grid.Column="1" Text="Kinh" HorizontalAlignment="Right"/>
+                            <TextBlock x:Name="txtEthnicity" Grid.Column="1" Text="---" HorizontalAlignment="Right"/>
                         </Grid>
                         <Grid Margin="0,0,0,12">
                             <Grid.ColumnDefinitions>
@@ -69,7 +124,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="Tôn giáo" Foreground="#666666"/>
-                            <TextBlock x:Name="txtReligion" Grid.Column="1" Text="Không" HorizontalAlignment="Right" TextAlignment="Right"/>
+                            <TextBlock x:Name="txtReligion" Grid.Column="1" Text="---" HorizontalAlignment="Right" TextAlignment="Right"/>
                         </Grid>
                     </StackPanel>
                 </Border>
@@ -78,94 +133,62 @@
                 <Border Grid.Column="2" Background="White" CornerRadius="8" Margin="0,0,16,16" Padding="20" BorderBrush="#E8E8E8" BorderThickness="1">
                     <StackPanel>
                         <TextBlock Text="Cấp bậc &amp; Đơn vị" FontWeight="Bold" FontSize="16" Margin="0,0,0,16"/>
-                        <TextBlock Text="Cấp bậc hiện" Foreground="#666666" Margin="0,0,0,4"/>
-                        <TextBlock x:Name="txtRank2" Text="Trung tá" Margin="0,0,0,12"/>
+                        <TextBlock Text="Cấp bậc hiện tại" Foreground="#666666" Margin="0,0,0,4"/>
+                        <TextBlock x:Name="txtRankDetail" Text="---" Margin="0,0,0,12"/>
 
                         <TextBlock Text="Đơn vị" Foreground="#666666" Margin="0,0,0,4"/>
-                        <TextBlock x:Name="txtUnit" Text="Sư đoàn 301" Margin="0,0,0,12"/>
+                        <TextBlock x:Name="txtUnitDetail" Text="---" Margin="0,0,0,12"/>
 
                         <TextBlock Text="Chức vụ" Foreground="#666666" Margin="0,0,0,4"/>
-                        <TextBlock x:Name="txtPosition" Text="Cán bộ"/>
+                        <TextBlock x:Name="txtPosition" Text="---"/>
                     </StackPanel>
                 </Border>
 
                 <!-- Achievements Card -->
-                <Border Grid.Column="3" Background="White" CornerRadius="8" Margin="0,0,0,16" Padding="20" BorderBrush="#E8E8E8" BorderThickness="1">
+                <Border Grid.Column="3" Background="White" CornerRadius="8" Margin="0,0,16,16" Padding="20" BorderBrush="#E8E8E8" BorderThickness="1">
                     <StackPanel>
                         <Grid Margin="0,0,0,16">
-                            <TextBlock Text="Thành tích" FontWeight="Bold" FontSize="16"/>
-                            <TextBlock Text="Đang chờ" HorizontalAlignment="Right" Foreground="#001529" FontWeight="Bold" Cursor="Hand"/>
+                            <TextBlock Text="Thành tích tiêu biểu" FontWeight="Bold" FontSize="16"/>
                         </Grid>
-                        <TextBlock Text="Tổng ký khay thành tích" Margin="0,0,0,8"/>
-                        <StackPanel Margin="10,0,0,0">
-                            <TextBlock Text="• Chiến sĩ vẻ vang" Margin="0,0,0,4"/>
-                            <TextBlock Text="• Thành tích Huân chương Chiến công hạng 3" Margin="0,0,0,4" TextWrapping="Wrap"/>
-                            <TextBlock Text="• Hiện còn quỹ thái hàng" Margin="0,0,0,4"/>
+                        <StackPanel x:Name="pnlTopAchievements">
+                             <TextBlock Text="Chưa có thông tin khen thưởng." Foreground="#999" FontStyle="Italic"/>
                         </StackPanel>
-                        <TextBlock Text="Những khát lạ v" HorizontalAlignment="Right" Foreground="#666666" Margin="0,10,0,0" Cursor="Hand"/>
+                        <Button x:Name="btnCreateProposal" Content="TẠO ĐỀ XUẤT" Click="BtnCreateProposal_Click" Style="{StaticResource Button}" Tag="Primary" Height="36" Margin="0,10,0,0" IsEnabled="False"/>
                     </StackPanel>
                 </Border>
             </Grid>
 
             <!-- Timeline Section -->
-            <Border Grid.Row="1" Background="White" CornerRadius="8" Padding="24" BorderBrush="#E8E8E8" BorderThickness="1">
+            <Border Grid.Row="2" Background="White" CornerRadius="8" Padding="24" BorderBrush="#E8E8E8" BorderThickness="1">
                 <StackPanel>
-                    <Grid Margin="0,0,0,30">
-                        <TextBlock Text="Timeline Khen thưởng" FontWeight="Bold" FontSize="16" VerticalAlignment="Center"/>
-                        <ComboBox Width="200" HorizontalAlignment="Right">
-                            <ComboBoxItem IsSelected="True">Lọc theo trạng thái Khen thưởng</ComboBoxItem>
-                        </ComboBox>
-                    </Grid>
+                    <TextBlock Text="Timeline Khen thưởng" FontWeight="Bold" FontSize="16" Margin="0,0,0,30"/>
 
-                    <!-- Custom Timeline Visualization -->
-                    <Grid Height="150" Margin="20,0">
-                        <!-- Horizontal Line -->
-                        <Line X1="0" Y1="30" X2="1000" Y2="30" Stroke="#001529" StrokeThickness="2" VerticalAlignment="Top"/>
-                        <Polygon Points="1000,25 1010,30 1000,35" Fill="#001529" VerticalAlignment="Top"/>
+                    <ItemsControl x:Name="icTimeline">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="0,0,0,20">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="100"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
 
-                        <!-- Item 1 -->
-                        <Canvas Margin="30,0,0,0">
-                            <TextBlock Text="15/06/2018" Canvas.Top="5" Foreground="#666666"/>
-                            <Line X1="35" Y1="30" X2="35" Y2="50" Stroke="#001529" StrokeThickness="2"/>
-                            <!-- Icon/Box -->
-                            <Border Canvas.Top="55" Canvas.Left="0" Width="40" Height="40" Background="#FFF7E6" BorderBrush="#FFD591" BorderThickness="1" CornerRadius="4">
-                                <TextBlock Text="📜" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
-                            </Border>
-                            <StackPanel Canvas.Top="55" Canvas.Left="50" Width="200">
-                                <TextBlock Text="Nhận Bằng khen" FontWeight="Bold"/>
-                                <TextBlock Text="Nhận thưởng Nhận Bằng Chiến công thành tích và" TextWrapping="Wrap" Foreground="#666666" FontSize="12" Margin="0,4,0,0"/>
-                            </StackPanel>
-                        </Canvas>
+                                    <TextBlock Text="{Binding Date}" VerticalAlignment="Center" Foreground="#666"/>
 
-                        <!-- Item 2 -->
-                        <Canvas Margin="350,0,0,0">
-                            <TextBlock Text="10/01/2020" Canvas.Top="5" Foreground="#666666"/>
-                            <Line X1="35" Y1="30" X2="35" Y2="50" Stroke="#001529" StrokeThickness="2"/>
-                            <!-- Icon/Box -->
-                            <Border Canvas.Top="55" Canvas.Left="0" Width="40" Height="40" Background="#F0F5FF" BorderBrush="#ADC6FF" BorderThickness="1" CornerRadius="4">
-                                <TextBlock Text="🏅" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
-                            </Border>
-                            <StackPanel Canvas.Top="55" Canvas.Left="50" Width="200">
-                                <TextBlock Text="Huân chương Chiến công hạng 3" FontWeight="Bold" TextWrapping="Wrap"/>
-                                <TextBlock Text="Nhận chương huyền Huân chương Chiến công hạng 3" TextWrapping="Wrap" Foreground="#666666" FontSize="12" Margin="0,4,0,0"/>
-                            </StackPanel>
-                        </Canvas>
+                                    <Ellipse Grid.Column="1" Width="12" Height="12" Fill="#001529" Margin="10,0"/>
 
-                        <!-- Item 3 -->
-                        <Canvas Margin="650,0,0,0">
-                            <TextBlock Text="01/05/2023" Canvas.Top="5" Foreground="#666666"/>
-                            <Line X1="35" Y1="30" X2="35" Y2="50" Stroke="#001529" StrokeThickness="2"/>
-                            <!-- Icon/Box -->
-                            <Border Canvas.Top="55" Canvas.Left="0" Width="40" Height="40" Background="#FFF1F0" BorderBrush="#FFA39E" BorderThickness="1" CornerRadius="4">
-                                <TextBlock Text="⭐" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
-                            </Border>
-                            <StackPanel Canvas.Top="55" Canvas.Left="50" Width="250">
-                                <TextBlock Text="Đề cử Huân chương Chiến sĩ vẻ vang" FontWeight="Bold" TextWrapping="Wrap"/>
-                                <TextBlock Text="Đề cử Huân chương Chiến sĩ vẻ vang bỏ đầy sử Huân chương Chiến công nguyên khiên chiến sĩ" TextWrapping="Wrap" Foreground="#666666" FontSize="12" Margin="0,4,0,0"/>
-                            </StackPanel>
-                        </Canvas>
+                                    <Border Grid.Column="2" Background="#F8F9FA" CornerRadius="4" Padding="12">
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding Title}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding Reason}" Foreground="#666" TextWrapping="Wrap" Margin="0,4,0,0"/>
+                                        </StackPanel>
+                                    </Border>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
 
-                    </Grid>
+                    <TextBlock x:Name="txtNoTimeline" Text="Không có lịch sử khen thưởng." Foreground="#999" HorizontalAlignment="Center" Margin="0,20" Visibility="Collapsed"/>
                 </StackPanel>
             </Border>
         </Grid>

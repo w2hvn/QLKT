@@ -39,10 +39,28 @@ namespace QLKT.Views
             catch { }
         }
 
+        private void BtnTogglePassword_Click(object sender, RoutedEventArgs e)
+        {
+            if (btnTogglePassword.IsChecked == true)
+            {
+                txtPasswordVisible.Text = txtPassword.Password;
+                txtPasswordVisible.Visibility = Visibility.Visible;
+                txtPassword.Visibility = Visibility.Collapsed;
+                txtEyeIcon.Text = "🙈";
+            }
+            else
+            {
+                txtPassword.Password = txtPasswordVisible.Text;
+                txtPassword.Visibility = Visibility.Visible;
+                txtPasswordVisible.Visibility = Visibility.Collapsed;
+                txtEyeIcon.Text = "👁️";
+            }
+        }
+
         private async void Login_Click(object sender, RoutedEventArgs e)
         {
             string username = txtUsername.Text;
-            string password = txtPassword.Password;
+            string password = (btnTogglePassword.IsChecked == true) ? txtPasswordVisible.Text : txtPassword.Password;
 
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
             {

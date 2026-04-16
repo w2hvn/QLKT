@@ -18,6 +18,8 @@ namespace QLKT.Views
             LoadData();
         }
 
+        private int _selectedUserId = -1;
+
         private async void LoadData()
         {
             try
@@ -44,6 +46,148 @@ namespace QLKT.Views
             {
                 MessageBox.Show("Lỗi tải danh sách người dùng: " + ex.Message);
             }
+        }
+
+        private void BtnTogglePassword_Click(object sender, RoutedEventArgs e)
+        {
+            if (btnTogglePassword.IsChecked == true)
+            {
+                txtPasswordVisible.Text = txtPassword.Password;
+                txtPasswordVisible.Visibility = Visibility.Visible;
+                txtPassword.Visibility = Visibility.Collapsed;
+                txtEyeIcon.Text = "🙈";
+            }
+            else
+            {
+                txtPassword.Password = txtPasswordVisible.Text;
+                txtPassword.Visibility = Visibility.Visible;
+                txtPasswordVisible.Visibility = Visibility.Collapsed;
+                txtEyeIcon.Text = "👁️";
+            }
+        }
+
+        private void dgUsers_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (dgUsers.SelectedItem is UserItem user)
+            {
+                _selectedUserId = int.Parse(user.ID);
+                txtFullName.Text = user.FullName;
+                txtUsername.Text = user.Username;
+
+                txtPassword.Password = "";
+                txtPasswordVisible.Text = "";
+
+                cboRole.Text = user.Role;
+                cboStatus.Text = user.Status;
+
+                txtFormTitle.Text = "CẬP NHẬT NGƯỜI DÙNG";
+                btnDelete.Visibility = Visibility.Visible;
+            }
+        }
+
+        private async void BtnSave_Click(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtFullName.Text) || string.IsNullOrWhiteSpace(txtUsername.Text))
+            {
+                MessageBox.Show("Vui lòng nhập đầy đủ thông tin.");
+                return;
+            }
+
+            try
+            {
+                string password = (btnTogglePassword.IsChecked == true) ? txtPasswordVisible.Text : txtPassword.Password;
+                string role = (cboRole.SelectedItem as ComboBoxItem)?.Content.ToString() ?? "Người dùng";
+                string status = (cboStatus.SelectedItem as ComboBoxItem)?.Content.ToString() ?? "Hoạt động";
+
+                if (_selectedUserId == -1)
+                {
+                    // Add new
+                    string query = "INSERT INTO Users (Username, Password, FullName, Role, Status) VALUES (@Username, @Password, @FullName, @Role, @Status)";
+                    var parameters = new MySqlConnector.MySqlParameter[]
+                    {
+                        new MySqlConnector.MySqlParameter("@Username", txtUsername.Text.Trim()),
+                        new MySqlConnector.MySqlParameter("@Password", password),
+                        new MySqlConnector.MySqlParameter("@FullName", txtFullName.Text.Trim()),
+                        new MySqlConnector.MySqlParameter("@Role", role),
+                        new MySqlConnector.MySqlParameter("@Status", status)
+                    };
+                    await _db.ExecuteNonQueryAsync(query, parameters);
+                    MessageBox.Show("Thêm người dùng thành công.");
+                }
+                else
+                {
+                    // Update
+                    string query = "UPDATE Users SET Username=@Username, FullName=@FullName, Role=@Role, Status=@Status";
+                    var parametersList = new List<MySqlConnector.MySqlParameter>
+                    {
+                        new MySqlConnector.MySqlParameter("@Username", txtUsername.Text.Trim()),
+                        new MySqlConnector.MySqlParameter("@FullName", txtFullName.Text.Trim()),
+                        new MySqlConnector.MySqlParameter("@Role", role),
+                        new MySqlConnector.MySqlParameter("@Status", status),
+                        new MySqlConnector.MySqlParameter("@Id", _selectedUserId)
+                    };
+
+                    if (!string.IsNullOrEmpty(password))
+                    {
+                        query += ", Password=@Password";
+                        parametersList.Add(new MySqlConnector.MySqlParameter("@Password", password));
+                    }
+
+                    query += " WHERE UserID=@Id";
+                    await _db.ExecuteNonQueryAsync(query, parametersList.ToArray());
+                    MessageBox.Show("Cập nhật người dùng thành công.");
+                }
+
+                ResetForm();
+                LoadData();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi lưu: " + ex.Message);
+            }
+        }
+
+        private async void BtnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            if (_selectedUserId == -1) return;
+
+            if (MessageBox.Show("Bạn có chắc chắn muốn xóa người dùng này?", "Xác nhận", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                try
+                {
+                    string query = "DELETE FROM Users WHERE UserID = @Id";
+                    var parameters = new MySqlConnector.MySqlParameter[]
+                    {
+                        new MySqlConnector.MySqlParameter("@Id", _selectedUserId)
+                    };
+                    await _db.ExecuteNonQueryAsync(query, parameters);
+                    MessageBox.Show("Đã xóa người dùng thành công.");
+                    ResetForm();
+                    LoadData();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Lỗi khi xóa: " + ex.Message);
+                }
+            }
+        }
+
+        private void BtnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            ResetForm();
+        }
+
+        private void ResetForm()
+        {
+            _selectedUserId = -1;
+            txtFullName.Text = "";
+            txtUsername.Text = "";
+            txtPassword.Password = "";
+            cboRole.SelectedIndex = -1;
+            cboStatus.SelectedIndex = -1;
+            txtFormTitle.Text = "THÊM NGƯỜI DÙNG MỚI";
+            btnDelete.Visibility = Visibility.Collapsed;
+            dgUsers.SelectedItem = null;
         }
     }
 
