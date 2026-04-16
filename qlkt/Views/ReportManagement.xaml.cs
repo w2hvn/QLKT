@@ -79,8 +79,9 @@ namespace QLKT.Views
                 string baseQuery = $@"SELECT {selectClause} 
                                       FROM Proposals r
                                       JOIN Soldiers s ON r.SoldierID = s.SoldierID
-                                      LEFT JOIN Units u ON s.UnitID = u.UnitID LEFT JOIN RewardCategories c ON r.CategoryID = c.CategoryID
-                                      WHERE 1=1";
+                                      LEFT JOIN Units u ON s.UnitID = u.UnitID
+                                      LEFT JOIN RewardCategories c ON r.CategoryID = c.CategoryID
+                                      WHERE r.Status = 'Đã phê duyệt'";
 
                 // Filters
                 if (cboUnitFilter.SelectedValue != null)

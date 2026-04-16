@@ -91,7 +91,7 @@ namespace QLKT
             MainContent.Content = _createProposalView;
             txtSubNavOverview.Text = "Tạo đề xuất mới";
             UpdateSubNavStyle(borderSubNavOverview, txtSubNavOverview);
-            UpdateSidebarStyle(btnNavRewardCategory); // Focus the corresponding sidebar menu item
+            UpdateSidebarStyle(btnNavProposal); // Correctly focus the Proposal menu item
         }
 
         private void SoldierProfileView_OnCreateProposalRequested(object sender, int soldierId)
@@ -102,7 +102,7 @@ namespace QLKT
             MainContent.Content = _createProposalView;
             txtSubNavOverview.Text = "Tạo đề xuất mới";
             UpdateSubNavStyle(borderSubNavOverview, txtSubNavOverview);
-            UpdateSidebarStyle(btnNavRewardCategory);
+            UpdateSidebarStyle(btnNavProposal);
         }
 
         private void UpdateSubNavStyle(Border activeBorder, TextBlock activeText)
