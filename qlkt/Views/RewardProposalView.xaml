@@ -98,7 +98,7 @@
             <Border Grid.Column="0" Style="{StaticResource StatCardStyle}">
                 <StackPanel>
                     <TextBlock Text="Tổng số đề xuất" Foreground="#6C757D" FontSize="14" FontWeight="SemiBold"/>
-                    <TextBlock Text="124" Foreground="#8E44AD" FontSize="28" FontWeight="Bold" Margin="0,5,0,0"/>
+                    <TextBlock x:Name="txtTotalProposals" Text="0" Foreground="#8E44AD" FontSize="28" FontWeight="Bold" Margin="0,5,0,0"/>
                 </StackPanel>
             </Border>
 
@@ -106,7 +106,7 @@
             <Border Grid.Column="1" Style="{StaticResource StatCardStyle}">
                 <StackPanel>
                     <TextBlock Text="Chờ phê duyệt" Foreground="#6C757D" FontSize="14" FontWeight="SemiBold"/>
-                    <TextBlock Text="18" Foreground="#F39C12" FontSize="28" FontWeight="Bold" Margin="0,5,0,0"/>
+                    <TextBlock x:Name="txtPendingProposals" Text="0" Foreground="#F39C12" FontSize="28" FontWeight="Bold" Margin="0,5,0,0"/>
                 </StackPanel>
             </Border>
 
@@ -114,7 +114,7 @@
             <Border Grid.Column="2" Style="{StaticResource StatCardStyle}">
                 <StackPanel>
                     <TextBlock Text="Đã phê duyệt" Foreground="#6C757D" FontSize="14" FontWeight="SemiBold"/>
-                    <TextBlock Text="92" Foreground="#27AE60" FontSize="28" FontWeight="Bold" Margin="0,5,0,0"/>
+                    <TextBlock x:Name="txtApprovedProposals" Text="0" Foreground="#27AE60" FontSize="28" FontWeight="Bold" Margin="0,5,0,0"/>
                 </StackPanel>
             </Border>
 
@@ -122,7 +122,7 @@
             <Border Grid.Column="3" Style="{StaticResource StatCardStyle}" Margin="0">
                 <StackPanel>
                     <TextBlock Text="Đã từ chối" Foreground="#6C757D" FontSize="14" FontWeight="SemiBold"/>
-                    <TextBlock Text="14" Foreground="#E74C3C" FontSize="28" FontWeight="Bold" Margin="0,5,0,0"/>
+                    <TextBlock x:Name="txtRejectedProposals" Text="0" Foreground="#E74C3C" FontSize="28" FontWeight="Bold" Margin="0,5,0,0"/>
                 </StackPanel>
             </Border>
         </Grid>
@@ -142,8 +142,8 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBox Grid.Column="0" Margin="0,0,10,0" Padding="10,8" VerticalContentAlignment="Center"
-                         Text="Tìm kiếm theo tên hoặc mã..." Foreground="#999" Background="#F8F9FA" BorderBrush="#E0E0E0">
+                <TextBox x:Name="txtSearch" Grid.Column="0" Margin="0,0,10,0" Padding="10,8" VerticalContentAlignment="Center"
+                         Foreground="#333" Background="#F8F9FA" BorderBrush="#E0E0E0" TextChanged="txtSearch_TextChanged">
                     <TextBox.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="5"/>
@@ -151,19 +151,21 @@
                     </TextBox.Resources>
                 </TextBox>
 
-                <ComboBox Grid.Column="1" Margin="0,0,10,0" Padding="10,8" VerticalContentAlignment="Center" SelectedIndex="0" Background="White" BorderBrush="#E0E0E0">
-                    <ComboBoxItem Content="Tất cả đơn vị"/>
-                    <ComboBoxItem Content="Tiểu đoàn 1"/>
-                    <ComboBoxItem Content="Tiểu đoàn 2"/>
-                </ComboBox>
+                <ComboBox x:Name="cboUnitFilter" Grid.Column="1" Margin="0,0,10,0" Padding="10,8" VerticalContentAlignment="Center"
+                          Background="White" BorderBrush="#E0E0E0" DisplayMemberPath="UnitName" SelectedValuePath="UnitID" SelectionChanged="Filter_SelectionChanged"/>
 
-                <ComboBox Grid.Column="2" Margin="0,0,10,0" Padding="10,8" VerticalContentAlignment="Center" SelectedIndex="0" Background="White" BorderBrush="#E0E0E0">
+                <ComboBox x:Name="cboStatusFilter" Grid.Column="2" Margin="0,0,10,0" Padding="10,8" VerticalContentAlignment="Center" SelectedIndex="0"
+                          Background="White" BorderBrush="#E0E0E0" SelectionChanged="Filter_SelectionChanged">
                     <ComboBoxItem Content="Tất cả trạng thái"/>
                     <ComboBoxItem Content="Chờ phê duyệt"/>
                     <ComboBoxItem Content="Đã phê duyệt"/>
+                    <ComboBoxItem Content="Từ chối"/>
+                    <ComboBoxItem Content="Yêu cầu bổ sung"/>
                 </ComboBox>
 
-                <ComboBox Grid.Column="3" Margin="0,0,10,0" Padding="10,8" VerticalContentAlignment="Center" SelectedIndex="0" Background="White" BorderBrush="#E0E0E0">
+                <ComboBox x:Name="cboYearFilter" Grid.Column="3" Margin="0,0,10,0" Padding="10,8" VerticalContentAlignment="Center" SelectedIndex="0"
+                          Background="White" BorderBrush="#E0E0E0" SelectionChanged="Filter_SelectionChanged">
+                    <ComboBoxItem Content="Tất cả thời gian"/>
                     <ComboBoxItem Content="Năm nay"/>
                     <ComboBoxItem Content="Năm ngoái"/>
                 </ComboBox>

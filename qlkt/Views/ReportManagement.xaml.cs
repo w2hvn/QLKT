@@ -84,27 +84,33 @@ namespace QLKT.Views
                                       WHERE r.Status = 'Đã phê duyệt'";
 
                 // Filters
+                var parameters = new List<MySqlParameter>();
+
                 if (cboUnitFilter.SelectedValue != null)
                 {
-                    baseQuery += $" AND s.UnitID = {cboUnitFilter.SelectedValue}";
+                    baseQuery += " AND s.UnitID = @UnitID";
+                    parameters.Add(new MySqlParameter("@UnitID", cboUnitFilter.SelectedValue));
                 }
 
                 if (dpFrom.SelectedDate != null)
                 {
-                    baseQuery += $" AND r.DateProposed >= '{dpFrom.SelectedDate:yyyy-MM-dd}'";
+                    baseQuery += " AND r.DateProposed >= @FromDate";
+                    parameters.Add(new MySqlParameter("@FromDate", dpFrom.SelectedDate.Value.ToString("yyyy-MM-dd")));
                 }
 
                 if (dpTo.SelectedDate != null)
                 {
-                    baseQuery += $" AND r.DateProposed <= '{dpTo.SelectedDate:yyyy-MM-dd}'";
+                    baseQuery += " AND r.DateProposed <= @ToDate";
+                    parameters.Add(new MySqlParameter("@ToDate", dpTo.SelectedDate.Value.ToString("yyyy-MM-dd")));
                 }
 
                 if (cboRewardType.SelectedItem is ComboBoxItem item && item.Content.ToString() != "Tất cả")
                 {
-                    baseQuery += $" AND c.CategoryName = '{item.Content}'";
+                    baseQuery += " AND c.CategoryName = @RewardName";
+                    parameters.Add(new MySqlParameter("@RewardName", item.Content.ToString()));
                 }
 
-                _currentData = await _db.ExecuteQueryAsync(baseQuery);
+                _currentData = await _db.ExecuteQueryAsync(baseQuery, parameters.ToArray());
                 dgReport.ItemsSource = _currentData.DefaultView;
 
                 UpdateAdvancedCharts();
