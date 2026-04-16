@@ -20,21 +20,80 @@ namespace QLKT.Views
             _db = new DatabaseContext();
             Rewards = new ObservableCollection<RewardItem>();
             dgRewardList.ItemsSource = Rewards;
+            LoadFilters();
+            LoadData();
+        }
+
+        private async void LoadFilters()
+        {
+            try
+            {
+                // Units
+                var dtUnits = await _db.ExecuteQueryAsync("SELECT UnitID, UnitName FROM Units");
+                DataRow drUnit = dtUnits.NewRow();
+                drUnit["UnitID"] = -1;
+                drUnit["UnitName"] = "Tất cả đơn vị";
+                dtUnits.Rows.InsertAt(drUnit, 0);
+                cboUnitFilter.ItemsSource = dtUnits.DefaultView;
+                cboUnitFilter.SelectedIndex = 0;
+
+                // Categories
+                var dtCats = await _db.ExecuteQueryAsync("SELECT CategoryID, CategoryName FROM RewardCategories");
+                DataRow drCat = dtCats.NewRow();
+                drCat["CategoryID"] = -1;
+                drCat["CategoryName"] = "Tất cả danh hiệu";
+                dtCats.Rows.InsertAt(drCat, 0);
+                cboCategoryFilter.ItemsSource = dtCats.DefaultView;
+                cboCategoryFilter.SelectedIndex = 0;
+            }
+            catch { }
+        }
+
+        private void Filter_Changed(object sender, EventArgs e)
+        {
+            if (txtSearchPlaceholder != null)
+                txtSearchPlaceholder.Visibility = string.IsNullOrEmpty(txtSearch.Text) ? Visibility.Visible : Visibility.Collapsed;
+
             LoadData();
         }
 
         private async void LoadData()
         {
+            if (_db == null) return;
+
             try
             {
                 string query = @"
-                    SELECT s.SoldierID, s.FullName, s.Rank, u.UnitName, p.Status
+                    SELECT s.SoldierID, s.FullName, s.Rank, s.Position, u.UnitName, c.CategoryName, p.DateProposed
                     FROM Proposals p
                     JOIN Soldiers s ON p.SoldierID = s.SoldierID
                     LEFT JOIN Units u ON s.UnitID = u.UnitID
+                    LEFT JOIN RewardCategories c ON p.CategoryID = c.CategoryID
                     WHERE p.Status = 'Đã phê duyệt'";
 
-                DataTable dt = await _db.ExecuteQueryAsync(query);
+                var parameters = new System.Collections.Generic.List<MySqlConnector.MySqlParameter>();
+
+                if (!string.IsNullOrWhiteSpace(txtSearch.Text))
+                {
+                    query += " AND (s.FullName LIKE @Search OR s.SoldierCode LIKE @Search)";
+                    parameters.Add(new MySqlConnector.MySqlParameter("@Search", $"%{txtSearch.Text.Trim()}%"));
+                }
+
+                if (cboUnitFilter.SelectedValue != null && (int)cboUnitFilter.SelectedValue != -1)
+                {
+                    query += " AND s.UnitID = @UnitID";
+                    parameters.Add(new MySqlConnector.MySqlParameter("@UnitID", cboUnitFilter.SelectedValue));
+                }
+
+                if (cboCategoryFilter.SelectedValue != null && (int)cboCategoryFilter.SelectedValue != -1)
+                {
+                    query += " AND p.CategoryID = @CatID";
+                    parameters.Add(new MySqlConnector.MySqlParameter("@CatID", cboCategoryFilter.SelectedValue));
+                }
+
+                query += " ORDER BY p.DateProposed DESC";
+
+                DataTable dt = await _db.ExecuteQueryAsync(query, parameters.ToArray());
                 Rewards.Clear();
                 int stt = 1;
 
@@ -46,12 +105,14 @@ namespace QLKT.Views
                         SoldierID = Convert.ToInt32(row["SoldierID"]),
                         Name = row["FullName"].ToString(),
                         Rank = row["Rank"].ToString(),
+                        Position = row["Position"]?.ToString() ?? "",
                         Unit = row["UnitName"]?.ToString() ?? "",
-                        Status = row["Status"].ToString(),
-                        StatusBackground = "#C6A87C",
-                        StatusForeground = "White"
+                        CategoryName = row["CategoryName"]?.ToString() ?? "N/A",
+                        Date = Convert.ToDateTime(row["DateProposed"]).ToString("dd/MM/yyyy")
                     });
                 }
+
+                txtPaginationSummary.Text = $"Hiển thị {Rewards.Count} kết quả";
             }
             catch (Exception ex)
             {
@@ -74,9 +135,9 @@ namespace QLKT.Views
         public int SoldierID { get; set; }
         public string Name { get; set; }
         public string Rank { get; set; }
+        public string Position { get; set; }
         public string Unit { get; set; }
-        public string Status { get; set; }
-        public string StatusBackground { get; set; }
-        public string StatusForeground { get; set; }
+        public string CategoryName { get; set; }
+        public string Date { get; set; }
     }
 }
