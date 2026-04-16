@@ -87,7 +87,7 @@
 
                     <Button Content="Tạo báo cáo" Style="{StaticResource Button}" Click="Generate_Click" Margin="0,0,12,12" VerticalAlignment="Bottom"/>
                     <Button Content="Xuất Excel" Style="{StaticResource Button}" Background="Green" Foreground="White" Click="Export_Click" Margin="0,0,12,12" VerticalAlignment="Bottom"/>
-                    <ToggleButton x:Name="btnToggleCharts" Content="Hiển thị Biểu đồ" Style="{StaticResource Button}" Tag="Secondary" Margin="0,0,0,12" VerticalAlignment="Bottom"/>
+                    <ToggleButton x:Name="btnToggleCharts" Content="Hiển thị Biểu đồ" Style="{StaticResource ToggleButton}" Tag="Secondary" Margin="0,0,0,12" VerticalAlignment="Bottom"/>
                 </WrapPanel>
 
                 <!-- Dynamic Columns -->
