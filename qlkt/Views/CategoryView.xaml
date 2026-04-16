@@ -28,7 +28,16 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Text="Danh sách loại khen thưởng" FontWeight="Bold" Margin="0,0,0,16"/>
+
+                    <Grid Margin="0,0,0,16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Danh sách loại khen thưởng" FontWeight="Bold" VerticalAlignment="Center"/>
+                        <Button Grid.Column="1" Content="+ Thêm mới" Style="{StaticResource Button}" Tag="Primary" Padding="12,6" Click="BtnAddNew_Click"/>
+                    </Grid>
+
                     <DataGrid x:Name="dgCategories" Grid.Row="1" Style="{StaticResource DataGrid}" AutoGenerateColumns="False" IsReadOnly="True" SelectionChanged="dgCategories_SelectionChanged">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="ID" Binding="{Binding CategoryID}" Width="60"/>

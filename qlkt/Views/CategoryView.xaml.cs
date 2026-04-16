@@ -120,6 +120,11 @@ namespace QLKT.Views
             ResetForm();
         }
 
+        private void BtnAddNew_Click(object sender, RoutedEventArgs e)
+        {
+            ResetForm();
+        }
+
         private void ResetForm()
         {
             _selectedCategoryId = -1;
