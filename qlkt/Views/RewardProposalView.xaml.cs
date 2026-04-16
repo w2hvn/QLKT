@@ -13,6 +13,11 @@ namespace QLKT.Views
         public event EventHandler OnCreateNewProposalRequested;
         private readonly DatabaseContext _db;
 
+        private int _currentPage = 1;
+        private int _pageSize = 10;
+        private int _totalItems = 0;
+        private int _totalPages = 1;
+
         public RewardProposalView()
         {
             InitializeComponent();
@@ -51,6 +56,7 @@ namespace QLKT.Views
 
         private void Filter_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            _currentPage = 1;
             LoadData();
         }
 
@@ -59,7 +65,7 @@ namespace QLKT.Views
             if (_db == null) return;
             try
             {
-                // Update stats
+                // Update stats (Global stats irrespective of current filter/page for KPI cards)
                 string totalQ = "SELECT COUNT(*) FROM Proposals";
                 string pendingQ = "SELECT COUNT(*) FROM Proposals WHERE Status = 'Chờ phê duyệt'";
                 string approvedQ = "SELECT COUNT(*) FROM Proposals WHERE Status = 'Đã phê duyệt'";
@@ -75,32 +81,25 @@ namespace QLKT.Views
                 txtApprovedProposals.Text = dtApproved.Rows[0][0].ToString();
                 txtRejectedProposals.Text = dtRejected.Rows[0][0].ToString();
 
-                // Load DataGrid
-                string query = @"
-                    SELECT p.ProposalID, p.ProposalCode, s.FullName, u.UnitName, c.CategoryName, p.DateProposed, p.Status
-                    FROM Proposals p
-                    JOIN Soldiers s ON p.SoldierID = s.SoldierID
-                    LEFT JOIN Units u ON s.UnitID = u.UnitID
-                    LEFT JOIN RewardCategories c ON p.CategoryID = c.CategoryID
-                    WHERE 1=1";
-
+                // Load DataGrid with dynamic filters
+                string whereClause = " WHERE 1=1";
                 var parameters = new List<MySqlConnector.MySqlParameter>();
 
                 if (!string.IsNullOrWhiteSpace(txtSearch.Text))
                 {
-                    query += " AND (s.FullName LIKE @Search OR p.ProposalCode LIKE @Search)";
+                    whereClause += " AND (s.FullName LIKE @Search OR p.ProposalCode LIKE @Search)";
                     parameters.Add(new MySqlConnector.MySqlParameter("@Search", $"%{txtSearch.Text.Trim()}%"));
                 }
 
                 if (cboUnitFilter.SelectedValue != null && (int)cboUnitFilter.SelectedValue != -1)
                 {
-                    query += " AND s.UnitID = @UnitID";
+                    whereClause += " AND s.UnitID = @UnitID";
                     parameters.Add(new MySqlConnector.MySqlParameter("@UnitID", cboUnitFilter.SelectedValue));
                 }
 
                 if (cboStatusFilter.SelectedItem is ComboBoxItem statusItem && statusItem.Content.ToString() != "Tất cả trạng thái")
                 {
-                    query += " AND p.Status = @Status";
+                    whereClause += " AND p.Status = @Status";
                     parameters.Add(new MySqlConnector.MySqlParameter("@Status", statusItem.Content.ToString()));
                 }
 
@@ -108,11 +107,29 @@ namespace QLKT.Views
                 {
                     int year = DateTime.Now.Year;
                     if (yearItem.Content.ToString() == "Năm ngoái") year--;
-                    query += " AND YEAR(p.DateProposed) = @Year";
+                    whereClause += " AND YEAR(p.DateProposed) = @Year";
                     parameters.Add(new MySqlConnector.MySqlParameter("@Year", year));
                 }
 
-                query += " ORDER BY p.DateProposed DESC";
+                // Get Filtered Count
+                string countFilteredQ = "SELECT COUNT(*) FROM Proposals p JOIN Soldiers s ON p.SoldierID = s.SoldierID" + whereClause;
+                DataTable dtCount = await _db.ExecuteQueryAsync(countFilteredQ, parameters.ToArray());
+                _totalItems = Convert.ToInt32(dtCount.Rows[0][0]);
+                _totalPages = (int)Math.Ceiling((double)_totalItems / _pageSize);
+                if (_totalPages == 0) _totalPages = 1;
+
+                // Load Current Page
+                string query = @"
+                    SELECT p.ProposalID, p.ProposalCode, s.FullName, u.UnitName, c.CategoryName, p.DateProposed, p.Status
+                    FROM Proposals p
+                    JOIN Soldiers s ON p.SoldierID = s.SoldierID
+                    LEFT JOIN Units u ON s.UnitID = u.UnitID
+                    LEFT JOIN RewardCategories c ON p.CategoryID = c.CategoryID" +
+                    whereClause +
+                    " ORDER BY p.DateProposed DESC LIMIT @PageSize OFFSET @Offset";
+
+                parameters.Add(new MySqlConnector.MySqlParameter("@PageSize", _pageSize));
+                parameters.Add(new MySqlConnector.MySqlParameter("@Offset", (_currentPage - 1) * _pageSize));
 
                 DataTable dt = await _db.ExecuteQueryAsync(query, parameters.ToArray());
                 var proposals = new List<ProposalItem>();
@@ -138,11 +155,79 @@ namespace QLKT.Views
                 }
 
                 ProposalsDataGrid.ItemsSource = proposals;
+                UpdatePaginationUI();
             }
             catch (Exception ex)
             {
                 // Silence or log
                 System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
+        }
+
+        private void UpdatePaginationUI()
+        {
+            int start = (_currentPage - 1) * _pageSize + 1;
+            int end = Math.Min(_currentPage * _pageSize, _totalItems);
+            txtPaginationSummary.Text = _totalItems > 0 ? $"Hiển thị {start}-{end} trên tổng số {_totalItems} kết quả" : "Hiển thị 0 kết quả";
+
+            btnPrevPage.IsEnabled = _currentPage > 1;
+            btnNextPage.IsEnabled = _currentPage < _totalPages;
+
+            pnlPageNumbers.Children.Clear();
+
+            int startPage = Math.Max(1, _currentPage - 2);
+            int endPage = Math.Min(_totalPages, startPage + 4);
+            if (endPage - startPage < 4) startPage = Math.Max(1, endPage - 4);
+
+            for (int i = startPage; i <= endPage; i++)
+            {
+                Button btn = new Button
+                {
+                    Content = i.ToString(),
+                    Width = 40,
+                    Height = 30,
+                    Margin = new Thickness(0, 0, 8, 0),
+                    Tag = i,
+                    Style = (Style)Application.Current.Resources["Button"]
+                };
+
+                if (i == _currentPage)
+                {
+                    btn.Tag = "Dark";
+                    btn.Background = new System.Windows.Media.SolidColorBrush((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#001529"));
+                    btn.Foreground = System.Windows.Media.Brushes.White;
+                }
+                else
+                {
+                    btn.Tag = "Secondary";
+                    btn.Background = System.Windows.Media.Brushes.White;
+                }
+
+                btn.Click += (s, e) =>
+                {
+                    _currentPage = (int)((Button)s).Tag;
+                    LoadData();
+                };
+
+                pnlPageNumbers.Children.Add(btn);
+            }
+        }
+
+        private void BtnPrevPage_Click(object sender, RoutedEventArgs e)
+        {
+            if (_currentPage > 1)
+            {
+                _currentPage--;
+                LoadData();
+            }
+        }
+
+        private void BtnNextPage_Click(object sender, RoutedEventArgs e)
+        {
+            if (_currentPage < _totalPages)
+            {
+                _currentPage++;
+                LoadData();
             }
         }
     }
