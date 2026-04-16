@@ -181,7 +181,7 @@
             <TextBlock x:Name="txtPaginationSummary" Text="Hiển thị 0 kết quả" VerticalAlignment="Center" Foreground="#666666"/>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="Quay lại" Background="White" BorderBrush="#E0E0E0" Padding="15,8" Margin="0,0,8,0">
+                <Button x:Name="btnPrevPage" Content="Quay lại" Background="White" BorderBrush="#E0E0E0" Padding="15,8" Margin="0,0,8,0" Click="BtnPrevPage_Click">
                     <Button.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="4"/>
@@ -189,41 +189,9 @@
                     </Button.Resources>
                 </Button>
 
-                <Button Content="1" Background="#001529" Foreground="White" BorderBrush="Transparent" Padding="12,8" Margin="0,0,8,0">
-                    <Button.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="4"/>
-                        </Style>
-                    </Button.Resources>
-                </Button>
+                <StackPanel x:Name="pnlPageNumbers" Orientation="Horizontal"/>
 
-                <Button Content="2" Background="White" BorderBrush="#E0E0E0" Padding="12,8" Margin="0,0,8,0">
-                    <Button.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="4"/>
-                        </Style>
-                    </Button.Resources>
-                </Button>
-
-                <Button Content="3" Background="White" BorderBrush="#E0E0E0" Padding="12,8" Margin="0,0,8,0">
-                    <Button.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="4"/>
-                        </Style>
-                    </Button.Resources>
-                </Button>
-
-                <TextBlock Text="..." VerticalAlignment="Center" Margin="0,0,8,0" Foreground="#666666"/>
-
-                <Button Content="874" Background="White" BorderBrush="#E0E0E0" Padding="12,8" Margin="0,0,8,0">
-                    <Button.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="4"/>
-                        </Style>
-                    </Button.Resources>
-                </Button>
-
-                <Button Content="Tiếp theo" Background="#001529" Foreground="White" BorderBrush="Transparent" Padding="15,8">
+                <Button x:Name="btnNextPage" Content="Tiếp theo" Background="#001529" Foreground="White" BorderBrush="Transparent" Padding="15,8" Click="BtnNextPage_Click">
                     <Button.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="4"/>
